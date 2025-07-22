@@ -1,0 +1,98 @@
+
+.side-content {
+    width: 250px;
+    height: 100vh;
+    background-color: #00BFFF;
+    color: white;
+    position: fixed;
+    font-family: 'Quicksand';
+    display: flex;
+    flex-direction: column;
+    gap: 60%;
+}
+
+.side-content ul {
+    list-style: none;
+    text-align: center;
+}
+.side-content ul li {
+  padding: 15px 10px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 50, 0.2);
+  align-items: center;
+  justify-content: center;
+}
+
+.side-content ul li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+
+}
+.side-content ul li a:hover{
+    color: #0000CD;
+}
+.side-content ul li a{
+    text-decoration: none;
+    color:white;
+    font-weight: bold;
+    font-size: 18px;
+
+    width: 100%;
+    text-align: center;
+}
+
+.side-content h2 {
+    text-align: center;
+    font-size: 15px;
+}
+.side-content .side-menu .menu-list{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.menu-item {
+  position: relative;
+  display: block;
+  text-align: left;
+}
+.submenu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+  background-color: #00bfff;
+  width: 100%; /* ocupa todo el ancho del li */
+  display: block;
+}
+
+.submenu-list li {
+  padding: 10px 0;
+  text-align: center;
+}
+
+.submenu-list li a {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  display: block;
+  width: 100%;
+}
+.submenu-list li:hover{
+    color: #0000CD;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.submenu-list li a:hover {
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+
+

@@ -1,0 +1,57 @@
+<div class="body">
+    <div class="productos-titulo">
+        <h1>Bienvenido al panel de Método de Pago</h1>
+    </div>
+    <div class="content">
+        <div class="cabecera">
+            <div class="acciones">
+                <div class="inputs">
+                    <label for="">Código:</label>
+                    <input type="search" placeholder="Ejm: SDC54">
+                </div>
+                <div class="inputs">
+                    <label for="">Marca:</label>
+                    <input type="search" placeholder="Ejm: Samsung" >
+                </div>
+                <div class="inputs">
+                    <label for="">Nombre:</label>
+                    <input type="search" placeholder="Ejm: Monitor">
+                </div>
+                <button ><i class="fa-solid fa-file-excel"></i> Generar
+                    Excel</button>
+                <button ><i class="fa-solid fa-file-pdf"></i> Generar PDF</button>
+            </div>
+            <div class="agregar">
+                <button ><i class="fa-solid fa-plus"></i> Agregar Producto</button>
+            </div>
+
+        </div>
+        <div class="tabla-content">
+            <table>
+                <thead>
+                    <tr>
+                       <!-- <th>ID</th>-->
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let metodo of metodosPago">
+                        <!--<td>{{producto.id}}</td>-->
+                        <td>{{metodo.id}}</td>
+                        <td>{{metodo.name}}</td>
+                        <td class="button-acciones">
+                            <button  class="trash">
+                                <i id="trash" class="fa-solid fa-trash"></i>
+                            </button>
+                            <button class="edit">
+                                <i id="pencil" class="fa-solid fa-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
