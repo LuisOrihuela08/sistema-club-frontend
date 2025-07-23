@@ -1,1 +1,30 @@
-<p>metodopago-update-modal works!</p>
+<div class="contenedor">
+    <div class="modal-content">
+        <div class="modal-content-header">
+            <div class="titulo-modal">
+                <h1>Completar todos los campos:</h1>
+            </div>
+            <div class="modal-boton">
+                <a >
+                    <button (click)="closeModalUpdateMetodoPago()"><i class="fa-solid fa-circle-xmark"></i></button>
+                </a>
+            </div>
+        </div>
+        <!--Acuerda de agregar por ejemplo formControlName="marca", ya que sin esto no se ejecutara ninguna accion porque el formulario no reconocera estos campos-->
+        <div class="modal-inputs">
+            <form [formGroup]="metodoPagoForm" (ngSubmit)="updateMetodoPago()">
+                <div class="inputs-compartidos">
+                    <div>
+                        <label for="name">Nombre:</label>
+                        <input formControlName="name" id="name" name="name" type="text" required>
+                    </div>
+                </div>
+                <div class="boton-agregar">
+                    <button type="submit" >Editar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

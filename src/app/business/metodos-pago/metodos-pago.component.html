@@ -34,7 +34,7 @@
                             <button (click)="deleteMetododPago(metodo.id)"  class="trash">
                                 <i id="trash" class="fa-solid fa-trash"></i>
                             </button>
-                            <button class="edit">
+                            <button (click)="openModalUpdateMetodoPago(metodo)" class="edit">
                                 <i id="pencil" class="fa-solid fa-pencil"></i>
                             </button>
                         </td>
@@ -53,4 +53,8 @@
 <!--Seccion Modal-->
 <div *ngIf="isModalAddMetodoPagoVisible == true">
     <app-metodopago-add-modal></app-metodopago-add-modal>
+</div>
+<div *ngIf="isModalUpdateMetodoPagoVisible && metodoPagoSelect">
+  <app-metodopago-update-modal [metodoPago] = "metodoPagoSelect!"></app-metodopago-update-modal>
+
 </div>

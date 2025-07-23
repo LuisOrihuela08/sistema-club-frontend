@@ -7,11 +7,12 @@ import { Subscription } from 'rxjs';
 import { ModalService } from '../../shared/services/modal.service';
 import { MetodopagoAddModalComponent } from './metodopago-add-modal/metodopago-add-modal.component';
 import Swal from 'sweetalert2';
+import { MetodopagoUpdateModalComponent } from './metodopago-update-modal/metodopago-update-modal.component';
 
 @Component({
   selector: 'app-metodos-pago',
   standalone: true,
-  imports: [CommonModule, FormsModule, MetodopagoAddModalComponent],
+  imports: [CommonModule, FormsModule, MetodopagoAddModalComponent, MetodopagoUpdateModalComponent],
   templateUrl: './metodos-pago.component.html',
   styleUrl: './metodos-pago.component.css'
 })
@@ -41,6 +42,7 @@ export class MetodosPagoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getMetodosPago();
     this.modalService.$modalAgregarMetodoPago.subscribe((valor) => {this.isModalAddMetodoPagoVisible = valor});
+    this.modalService.$modalEditarMetodoPago.subscribe((valor) => {this.isModalUpdateMetodoPagoVisible = valor});
     this.metodoPagoSusbcribe = this.metodoPagoService.metodoPagoUpdate$.subscribe(
       () => {
         this.getMetodosPago();
@@ -53,6 +55,13 @@ export class MetodosPagoComponent implements OnInit, OnDestroy {
   openModalAddMetodoPago(){
     this.modalService.$modalAgregarMetodoPago.emit(true);
     console.log('Modal para agregar un método de pago abierto');
+  }
+
+  //Esto es para abrir el modal de actualizar método de pago
+  openModalUpdateMetodoPago(metodo: MetodoPago){
+    this.metodoPagoSelect = metodo; // Asignar el método de pago seleccionado
+    this.modalService.$modalEditarMetodoPago.emit(true);
+    console.log('Modal para actualizar un método de pago abierto', this.isModalUpdateMetodoPagoVisible);
   }
 
   //Método para listar los métodos de pago
