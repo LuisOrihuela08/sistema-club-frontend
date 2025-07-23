@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { MetodoPago } from '../models/MetodoPago';
 
 @Injectable({
@@ -8,7 +8,16 @@ import { MetodoPago } from '../models/MetodoPago';
 })
 export class MetodoPagoService {
 
+  //Para actualizar los método de pago en tiempo real
+  private metodoPagoUpdateSource = new BehaviorSubject<void>(undefined);
+  metodoPagoUpdate$ = this.metodoPagoUpdateSource.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  //Método para actualizar los método de pago
+  notifyMetodoPagoUpdate(){
+    this.metodoPagoUpdateSource.next();
+  }
 
   //Metodo para listar los métodos de pago
   getMetodosPago(): Observable<MetodoPago[]>{
@@ -19,6 +28,11 @@ export class MetodoPagoService {
   getMetodoPagoByName(name: string): Observable<any>{
     return this.http.get('http://localhost:8080/api/v1/metodo-pago/name/' + name);
 
+  }
+
+  //Método para agregar un nuevo método de pago
+  createMetodoPago(metodoPago: MetodoPago): Observable<any>{
+    return this.http.post('http://localhost:8080/api/v1/metodo-pago/', metodoPago);
   }
 
 

@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="agregar">
-                <button ><i class="fa-solid fa-plus"></i> Agregar Producto</button>
+                <button (click)="openModalAddMetodoPago()" ><i class="fa-solid fa-plus"></i> Agregar Producto</button>
             </div>
 
         </div>
@@ -48,4 +48,9 @@
     <!--Mensaje para la búsqueda por nombre-->
     <p *ngIf="metodosPago.length === 0 && nameMetodoPagoBuscado.trim() !== ''">No se encontrar resultados con el nombre: <strong>{{nameMetodoPagoBuscado}}</strong></p>
 
+</div>
+
+<!--Seccion Modal-->
+<div *ngIf="isModalAddMetodoPagoVisible == true">
+    <app-metodopago-add-modal></app-metodopago-add-modal>
 </div>
