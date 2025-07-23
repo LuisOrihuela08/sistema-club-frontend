@@ -31,7 +31,7 @@
                         <td>{{metodo.id}}</td>
                         <td>{{metodo.name}}</td>
                         <td class="button-acciones">
-                            <button  class="trash">
+                            <button (click)="deleteMetododPago(metodo.id)"  class="trash">
                                 <i id="trash" class="fa-solid fa-trash"></i>
                             </button>
                             <button class="edit">

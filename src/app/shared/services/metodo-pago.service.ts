@@ -35,6 +35,11 @@ export class MetodoPagoService {
     return this.http.post('http://localhost:8080/api/v1/metodo-pago/', metodoPago);
   }
 
+  //Método para eliminar un método de pago por ID
+  deleteMetodoPago(id: number): Observable<any>{
+    return this.http.delete('http://localhost:8080/api/v1/metodo-pago/id/' + id);
+  }
+
 
   //Método para listar los métodos de pago con paginación
   getMetodosPagoByPagination(page: number, size: number){

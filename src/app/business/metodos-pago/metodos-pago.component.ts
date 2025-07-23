@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ModalService } from '../../shared/services/modal.service';
 import { MetodopagoAddModalComponent } from './metodopago-add-modal/metodopago-add-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-metodos-pago',
@@ -86,6 +87,46 @@ export class MetodosPagoComponent implements OnInit, OnDestroy {
         this.metodosPago = [];
       }
     });
+  }
+
+  //Método para eliminar un método de pago
+  deleteMetododPago(id: number): void {
+    Swal.fire({
+      title: '¿Estás seguro de eliminar este método de pago?',
+      text: 'No habra manera de revertir esta acción',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, quiero eliminarlo!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.metodoPagoService.deleteMetodoPago(id).subscribe(
+          (response) => {
+            Swal.fire({
+              title: 'Método de Pago eliminado',
+              text: 'El Método de Pago ha sido eliminado exitosamente.',
+              icon: 'success',
+              confirmButtonText: 'Aceptar',
+            });
+            console.log('Método de pago eliminado exitosamente: ', response);
+
+            //Notificamos al servicio para actualizar el listado de métodos de pago
+            this.metodosPago = this.metodosPago.filter(metodo => metodo.id !== id);// Actualizar la lista de métodos de pago en el componente
+            this.metodoPagoService.notifyMetodoPagoUpdate();
+          },
+          (error) => {
+            console.log('Error al eliminar el método de pago: ', error);
+            Swal.fire({
+              title: 'Error al eliminar el método de pago',
+              text: 'No se pudo eliminar el método de pago.',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        )
+      }
+    })
   }
 
 }
