@@ -6,20 +6,9 @@
         <div class="cabecera">
             <div class="acciones">
                 <div class="inputs">
-                    <label for="">Código:</label>
-                    <input type="search" placeholder="Ejm: SDC54">
-                </div>
-                <div class="inputs">
-                    <label for="">Marca:</label>
-                    <input type="search" placeholder="Ejm: Samsung" >
-                </div>
-                <div class="inputs">
                     <label for="">Nombre:</label>
-                    <input type="search" placeholder="Ejm: Monitor">
+                    <input (input)="getMetodoPagoByName()" [(ngModel)]="nameMetodoPagoBuscado" type="search" placeholder="Ejm: Yape">
                 </div>
-                <button ><i class="fa-solid fa-file-excel"></i> Generar
-                    Excel</button>
-                <button ><i class="fa-solid fa-file-pdf"></i> Generar PDF</button>
             </div>
             <div class="agregar">
                 <button ><i class="fa-solid fa-plus"></i> Agregar Producto</button>
@@ -54,4 +43,9 @@
             </table>
         </div>
     </div>
+
+    <!--SECCIÓN DE MENSAJES-->
+    <!--Mensaje para la búsqueda por nombre-->
+    <p *ngIf="metodosPago.length === 0 && nameMetodoPagoBuscado.trim() !== ''">No se encontrar resultados con el nombre: <strong>{{nameMetodoPagoBuscado}}</strong></p>
+
 </div>

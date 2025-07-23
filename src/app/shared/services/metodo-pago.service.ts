@@ -10,8 +10,15 @@ export class MetodoPagoService {
 
   constructor(private http: HttpClient) { }
 
+  //Metodo para listar los métodos de pago
   getMetodosPago(): Observable<MetodoPago[]>{
     return this.http.get<MetodoPago[]>('http://localhost:8080/api/v1/metodo-pago/');
+  }
+
+  //Método para buscar método de pago por nombre (name)
+  getMetodoPagoByName(name: string): Observable<any>{
+    return this.http.get('http://localhost:8080/api/v1/metodo-pago/name/' + name);
+
   }
 
 
