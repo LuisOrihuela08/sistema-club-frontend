@@ -25,7 +25,7 @@ export class HospedajesService {
     return this.http.get('http://localhost:8080/api/v1/hospedaje/pagination', {params});
   }
 
-  getHospedajeByCodig(codigo: string): Observable<any> {
+  getHospedajeByCodigo(codigo: string): Observable<any> {
     return this.http.get('http://localhost:8080/api/v1/hospedaje/codigo/' + codigo);
   }
 

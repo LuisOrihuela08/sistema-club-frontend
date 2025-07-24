@@ -3,11 +3,13 @@ import { Hospedaje } from '../../shared/models/Hospedaje';
 import { HospedajesService } from '../../shared/services/hospedajes.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { CommonModule } from '@angular/common';
+import { error } from 'console';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-hospedajes',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './hospedajes.component.html',
   styleUrl: './hospedajes.component.css'
 })
@@ -61,5 +63,25 @@ export class HospedajesComponent implements OnInit {
   cleanFilters(): void {
     this.currentPage = 0;
     this.getHospedajesByPagination();
+  }
+
+  //Filtrar una habitación por código
+  getHospedajeByCodigoHabitacion(): void {
+    if (!this.codigoHabitacionBuscado.trim()) {
+      console.warn('El código de habitación no puede estar vacío');
+      this.getHospedajesByPagination();
+      return;
+    }
+
+    this.hospedajeService.getHospedajeByCodigo(this.codigoHabitacionBuscado).subscribe({
+      next: (data) =>{
+        this.hospedajes = [data];
+        console.log('Hospedaje encontrado: ', data);
+      },
+      error: (error) => {
+        console.error('Error al buscar el hospedaje por código: ', error);
+        this.hospedajes = [];
+      }
+    });
   }
 }

@@ -7,7 +7,7 @@
       <div class="acciones">
         <div class="inputs">
           <label for="">Código:</label>
-          <input type="search">
+          <input [(ngModel)]="codigoHabitacionBuscado" (input)="getHospedajeByCodigoHabitacion()" type="search">
         </div>
         <div class="inputs">
           <button class="button-disponible">Disponibles</button>
@@ -50,9 +50,9 @@
     </div>
 
     <!--SECCIÓN DE MENSAJES-->
-    <!--Mensaje para la búsqueda por dni-->
-    <!--<p *ngIf="bungalows.length === 0 && codigoBungalowBuscado.trim() !== ''">No se encontraron resultados con el Código:
-      <strong>{{codigoBungalowBuscado}}</strong></p>-->
+    <!--Mensaje para la búsqueda por código de habitacion-->
+    <p *ngIf="hospedajes.length === 0 && codigoHabitacionBuscado.trim() !== ''">No se encontraron resultados con el Código:
+      <strong>{{codigoHabitacionBuscado}}</strong></p>
     <!--SECCIÓN DE PAGINACIÓN-->
     <div class="paginacion">
       <button (click)="prevPage()" [disabled]="currentPage === 0"><i class="fa-solid fa-chevron-left"></i>
