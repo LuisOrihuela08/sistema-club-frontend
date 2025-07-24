@@ -15,6 +15,14 @@ export const routes: Routes = [
         loadComponent: () => import('./business/clientes/clientes.component').then(m => m.ClientesComponent)
       },
       {
+        path: 'bungalows',
+        loadComponent: () => import('./business/bungalows/bungalows.component').then(m => m.BungalowsComponent)
+      },
+      {
+        path: 'hospedajes',
+        loadComponent: () => import('./business/hospedajes/hospedajes.component').then(m => m.HospedajesComponent)
+      },
+      {
         path:'clientes',
         redirectTo: 'clientes',
         pathMatch: 'full'
