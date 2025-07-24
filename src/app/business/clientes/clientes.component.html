@@ -8,7 +8,7 @@
             <div class="acciones">
                 <div class="inputs">
                     <label for="">DNI:</label>
-                    <input [(ngModel)]="dniClienteBuscado" (input)="getClienteByDni()"  type="search" placeholder="Ejm: Yape">
+                    <input [(ngModel)]="dniClienteBuscado" (input)="getClienteByDni()"  type="search">
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                         <td>{{cliente.district}}</td>
                         <td>{{cliente.telephone}}</td>
                         <td class="button-acciones">
-                            <button  class="edit">
+                            <button (click)="openModalUpdateCliente(cliente)"  class="edit">
                                 <i id="pencil" class="fa-solid fa-pencil"></i>
                             </button>
                         </td>
@@ -57,4 +57,6 @@
 </div>
 
 <!--Seccion Modal-->
-
+<div *ngIf="isModalUpdateClienteVisible && clienteSelect">
+  <app-clientes-update-modal [cliente] = "clienteSelect!"></app-clientes-update-modal>
+</div>

@@ -1,0 +1,50 @@
+<div class="contenedor">
+    <div class="modal-content">
+        <div class="modal-content-header">
+            <div class="titulo-modal">
+                <h1>Completar todos los campos:</h1>
+            </div>
+            <div class="modal-boton">
+                <a >
+                    <button (click)="closeModalUpdateCliente()"><i class="fa-solid fa-circle-xmark"></i></button>
+                </a>
+            </div>
+        </div>
+        <!--Acuerda de agregar por ejemplo formControlName="marca", ya que sin esto no se ejecutara ninguna accion porque el formulario no reconocera estos campos-->
+        <div class="modal-inputs">
+            <form [formGroup]="clienteForm" (ngSubmit)="updateCliente()">
+                <div class="inputs-compartidos">
+                    <div>
+                        <label for="name">Nombre:</label>
+                        <input formControlName="name" id="name" name="name" type="text" required>
+                    </div>
+                </div>
+                <div class="inputs-compartidos">
+                    <div>
+                        <label for="lastName">Apellido:</label>
+                        <input formControlName="lastName" id="lastName" name="lastName" type="text" required>
+                    </div>
+                    <div>
+                        <label for="dni">DNI:</label>
+                        <input formControlName="dni" id="dni" name="dni" type="text" required>
+                    </div>
+                </div>
+                <div class="inputs-compartidos">
+                    <div>
+                        <label for="district">Distrito:</label>
+                        <input formControlName="district" id="district" name="district" type="text" required>
+                    </div>
+                    <div>
+                        <label for="telephone">Teléfono:</label>
+                        <input formControlName="telephone" id="telephone" name="telephone" type="text" required>
+                    </div>
+                </div>
+                <div class="boton-agregar">
+                    <button type="submit" >Editar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

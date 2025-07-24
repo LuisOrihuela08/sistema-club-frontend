@@ -1,17 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Cliente } from '../../shared/models/Cliente';
 import { ClienteService } from '../../shared/services/cliente.service';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ModalService } from '../../shared/services/modal.service';
+import { ClientesUpdateModalComponent } from './clientes-update-modal/clientes-update-modal.component';
 
 @Component({
   selector: 'app-clientes',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ClientesUpdateModalComponent],
   templateUrl: './clientes.component.html',
   styleUrl: './clientes.component.css'
 })
-export class ClientesComponent implements OnInit {
+export class ClientesComponent implements OnInit, OnDestroy {
 
   clientes: Cliente[] =[];
   dniClienteBuscado: string = '';// Esto es para realizar la busqueda del cliente por DNI
@@ -21,10 +24,40 @@ export class ClientesComponent implements OnInit {
   pageSize: number = 14; // Número de elementos por página
   totalPages: number = 1; // Se actualizará según la respuesta del backend
 
-  constructor(private clienteService: ClienteService){}
+  //Sección de modal para actualizar cliente
+  isModalUpdateClienteVisible: boolean = false;
+  clienteSelect: Cliente | null = null; // Variable para almacenar el cliente seleccionado para poder actualizar
+
+  //Seccion para la subscripción y actualización de clientes
+  private clienteSubscribe: Subscription = undefined!; // Esto es para actualizar los clientes en tiempo real
+
+  constructor(private clienteService: ClienteService,
+              private modalService: ModalService
+  ){}
+
+
+  ngOnDestroy(): void {
+    if (this.clienteSubscribe) {
+      this.clienteSubscribe.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
     this.getClienteByPagination();
+    this.modalService.$modalEditarCliente.subscribe((valor) => {this.isModalUpdateClienteVisible =valor});
+    this.clienteSubscribe = this.clienteService.clienteUpdate$.subscribe(
+      () => {
+        this.getClienteByPagination();
+        console.log('Clientes actualizados en tiempo real');
+      }
+    )
+  }
+
+  //Esto es para abrir el modal de actualizar cliente
+  openModalUpdateCliente(cliente: Cliente){
+    this.clienteSelect = cliente;
+    this.modalService.$modalEditarCliente.emit(true);
+    console.log('Modal para actualzar un cliente', this.isModalUpdateClienteVisible);
   }
 
   //Método para listar clientes por paginación

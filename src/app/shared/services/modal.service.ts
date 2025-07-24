@@ -10,4 +10,7 @@ export class ModalService {
   //Esto es para método de pago
   $modalAgregarMetodoPago = new EventEmitter<any>();
   $modalEditarMetodoPago = new EventEmitter<any>();
+
+  //Esto es para cliente
+  $modalEditarCliente = new EventEmitter<any>();
 }
