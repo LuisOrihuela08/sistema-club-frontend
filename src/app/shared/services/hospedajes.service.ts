@@ -29,6 +29,13 @@ export class HospedajesService {
     return this.http.get('http://localhost:8080/api/v1/hospedaje/codigo/' + codigo);
   }
 
+  getHospedajeByDisponibilidad(page: number, size:number, disponible: boolean): Observable<any>{
+    const params = new HttpParams().set('page', page.toString())
+                                   .set('size', size.toString())
+                                   .set('disponible', disponible.toString());
+    return this.http.get('http://localhost:8080/api/v1/hospedaje/disponibilidad', {params});
+  }
+
   getTipoHabitacion(): Observable<any>{
     return this.http.get('http://localhost:8080/api/v1/hospedaje/tipos-habitacion');
   }

@@ -3,7 +3,6 @@ import { Hospedaje } from '../../shared/models/Hospedaje';
 import { HospedajesService } from '../../shared/services/hospedajes.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { CommonModule } from '@angular/common';
-import { error } from 'console';
 import { FormsModule } from '@angular/forms';
 import { HospedajeAddModalComponent } from './hospedaje-add-modal/hospedaje-add-modal.component';
 import { Subscription } from 'rxjs';
@@ -109,6 +108,22 @@ export class HospedajesComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al buscar el hospedaje por código: ', error);
+        this.hospedajes = [];
+      }
+    });
+  }
+
+  //Filtrar hospedajes por disponibilidad
+  getHospedajeByDisponibility(disponibles: boolean): void {
+    this.disponibilidadSeleccionada = disponibles;
+    this.hospedajeService.getHospedajeByDisponibilidad(this.currentPage, this.pageSize, disponibles).subscribe({
+      next: (data) => {
+        this.hospedajes = data.content;
+        this.totalPages = data.totalPages;
+        console.log('Hospedajes disponibles: ', this.hospedajes);
+      },
+      error: (error) => {
+        console.error('Error al buscar los hospedajes por su disponibilidad: ', error);
         this.hospedajes = [];
       }
     });

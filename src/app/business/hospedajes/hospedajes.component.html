@@ -10,8 +10,8 @@
           <input [(ngModel)]="codigoHabitacionBuscado" (input)="getHospedajeByCodigoHabitacion()" type="search">
         </div>
         <div class="inputs">
-          <button class="button-disponible">Disponibles</button>
-          <button class="button-no-disponible">No Disponibles</button>
+          <button (click)="getHospedajeByDisponibility(true)" class="button-disponible">Disponibles</button>
+          <button (click)="getHospedajeByDisponibility(false)" class="button-no-disponible">No Disponibles</button>
         </div>
         <div class="inputs">
           <button (click)="cleanFilters()"><i class="fa-solid fa-broom"></i></button>
