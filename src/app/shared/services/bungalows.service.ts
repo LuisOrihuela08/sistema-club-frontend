@@ -14,7 +14,7 @@ export class BungalowsService {
 
   constructor(private http: HttpClient) { }
 
-  //Método para actualizar los clientes
+  //Método para actualizar la lista  de los bungalows
   notifyBungalowUpdate(){
     this.bungalowUpdateSource.next();
   }
