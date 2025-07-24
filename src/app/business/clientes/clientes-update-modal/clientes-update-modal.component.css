@@ -38,7 +38,7 @@
 }
 
 .contenedor .modal-content .modal-content-header .modal-boton button {
-    color: #00BFFF;
+    color: #005A7C;
     font-size: 25px;
     background-color: transparent;
     border: none;
@@ -52,7 +52,7 @@
 /*Titulo del modal*/
 .contenedor .modal-content .modal-content-header .titulo-modal h1 {
     font-size: 1.3rem;
-    color: #00BFFF;
+    color: #005A7C;
     font-family: 'Quicksand';
 }
 
@@ -91,20 +91,12 @@
 .contenedor .modal-content .modal-inputs .inputs-compartidos div input {
     width: 100%;
     padding: 8px;
-    border: 1px solid #007bff;
+    border: 1px solid #005A7C;
     border-radius: 5px;
     font-size: 14px;
     font-family: 'Quicksand';
 }
-.contenedor .modal-content .modal-inputs .inputs-compartidos textarea{
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #007bff;
-    border-radius: 5px;
-    font-size: 14px;
-    font-family: 'Quicksand';
-    height: 60px;
-}
+
 /*Boton agregar del modal*/
 .contenedor .modal-content .modal-inputs .boton-agregar {
     margin-top: 10px;
@@ -114,7 +106,7 @@
     font-size: 17px;
     font-weight: bold;
     font-family: 'Quicksand';
-    background-color: #007bff;
+    background-color: #005A7C;
     color: white;
     padding: 10px;
     border-radius: 5px;
@@ -128,5 +120,5 @@
 
 .contenedor .modal-content .modal-inputs .boton-agregar button:hover {
     cursor: pointer;
-    background-color: #99ccff;
+    background-color: #66D9EF;
 }

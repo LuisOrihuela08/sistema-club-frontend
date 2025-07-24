@@ -31,13 +31,13 @@
 .content .cabecera button{
     font-size: 16px;
     padding: 11px 15px;
-    background-color: #00BFFF;
+    background-color: #005A7C;
     color: white;
     border-radius: 7px;
     border: none;
 }
 .content .cabecera button:hover{
-    background-color: #0000CD;
+    background-color: #66D9EF;
     transition: 0.3s;
     cursor: pointer;
 }
@@ -49,7 +49,7 @@
 }
 .content .cabecera input:focus{
     outline: none;
-    border-color: #00BFFF;
+    border-color: #005A7C;
 }
 .content .cabecera .acciones{
     display: flex;
@@ -81,7 +81,7 @@
     overflow: hidden;
 }
 .content .tabla-content th{
-    background: #00BFFF;
+    background: #005A7C;
     color: white;
 }
 
@@ -127,26 +127,4 @@
     cursor: pointer;
     color: #e6c200;
 }
-/*Area de la paginacion*/
-.paginacion{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    margin-top: 10px;
-}
-.paginacion button{
-    color: #007bff;
-    font-weight: bold;
-    font-family: 'Quicksand';
-    background-color: transparent;
-    border: none;
-}
-.paginacion button:hover{
-    cursor: pointer;
-    color: #0056b3;
-}
-.paginacion span{
-    font-weight: bold;
-    font-family: 'Quicksand';
-}
+
