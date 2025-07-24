@@ -41,7 +41,7 @@
                         <td>{{bungalow.precio}}</td>
                         <td>{{bungalow.descripcion}}</td>
                         <td class="button-acciones">
-                            <button class="edit">
+                            <button (click)="opendModalUpdateBungalow(bungalow)" class="edit">
                                 <i id="pencil" class="fa-solid fa-pencil"></i>
                             </button>
                         </td>
@@ -67,5 +67,8 @@
 <!--Seccion Modal-->
 <div *ngIf="isModalAddBungalowVisible == true">
   <app-bungalow-add-modal></app-bungalow-add-modal>
+</div>
+<div *ngIf="isModalUpdateBungalowVisible && bungalowSelect">
+  <app-bungalow-update-modal [bungalow]="bungalowSelect!"></app-bungalow-update-modal>
 </div>
 

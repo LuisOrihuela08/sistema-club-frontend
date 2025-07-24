@@ -49,6 +49,12 @@ export class ClientesUpdateModalComponent implements OnInit{
 
     if (this.clienteForm.invalid) {
       console.warn('Formulario inválido');
+      Swal.fire({
+              icon: "warning",
+              title: "Formulario incompleto",
+              text: "Por favor, completa todos los campos antes de continuar.",
+              confirmButtonText: "Aceptar"
+            });
       return;
     }
 
@@ -73,9 +79,9 @@ export class ClientesUpdateModalComponent implements OnInit{
           title: 'Error !',
           text: 'Error al actualizar el cliente',
           confirmButtonText: 'Aceptar'
-        })
+        });
       }
-    })
+    });
 
   }
 }

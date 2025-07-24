@@ -47,6 +47,12 @@ export class MetodopagoUpdateModalComponent implements OnInit{
 
     if (this.metodoPagoForm.invalid) {
       console.log('Formulario inválido');
+      Swal.fire({
+              icon: "warning",
+              title: "Formulario incompleto",
+              text: "Por favor, completa todos los campos antes de continuar.",
+              confirmButtonText: "Aceptar"
+            });
       return;
     }
 

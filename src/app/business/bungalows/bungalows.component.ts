@@ -6,11 +6,12 @@ import { ModalService } from '../../shared/services/modal.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BungalowAddModalComponent } from './bungalow-add-modal/bungalow-add-modal.component';
+import { BungalowUpdateModalComponent } from './bungalow-update-modal/bungalow-update-modal.component';
 
 @Component({
   selector: 'app-bungalows',
   standalone: true,
-  imports: [CommonModule, FormsModule, BungalowAddModalComponent],
+  imports: [CommonModule, FormsModule, BungalowAddModalComponent, BungalowUpdateModalComponent],
   templateUrl: './bungalows.component.html',
   styleUrl: './bungalows.component.css'
 })
@@ -40,6 +41,7 @@ export class BungalowsComponent implements OnInit {
   ngOnInit(): void {
     this.getBungalowsByPagination();
     this.modalService.$modalAgregarBungalow.subscribe((valor) => {this.isModalAddBungalowVisible = valor});
+    this.modalService.$modalEditarBungalow.subscribe((valor) => {this.isModalUpdateBungalowVisible = valor});
     this.bungalowSubscribe = this.bungalowService.bungalowUpdate$.subscribe(
       () => {
         this.getBungalowsByPagination();
@@ -51,6 +53,13 @@ export class BungalowsComponent implements OnInit {
   //Método para abrir el modal de agregar bungalow
   openModalAddBungalow(): void {
     this.modalService.$modalAgregarBungalow.emit(true);
+  }
+
+  //Método para abrir el modal para actualizar bungalow
+  opendModalUpdateBungalow(bungalow: Bungalow): void{
+    this.bungalowSelect = bungalow;//Le paso el bungalow seleccionado
+    this.modalService.$modalEditarBungalow.emit(true);
+    console.log('Modal para actualizar bungalow abierto: ', this.isModalUpdateBungalowVisible);
   }
 
   //Método para listar los bungalows con  paginación
