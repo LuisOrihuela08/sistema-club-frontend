@@ -44,7 +44,7 @@ export class HospedajesService {
     return this.http.post('http://localhost:8080/api/v1/hospedaje/', hospedaje);
   }
 
-  updateHosedaje(id:number, hospedaje: Hospedaje): Observable<any>{
+  updateHospedaje(id:number, hospedaje: Hospedaje): Observable<any>{
     return this.http.put('http://localhost:8080/api/v1/hospedaje/id/' + id, hospedaje);
   }
 }

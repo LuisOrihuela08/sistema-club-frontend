@@ -77,7 +77,7 @@ export class BungalowUpdateModalComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Error !',
-          text: 'Error al actualizar el cliente',
+          text: 'Error al actualizar el bungalow',
           confirmButtonText: 'Aceptar'
         });
       }

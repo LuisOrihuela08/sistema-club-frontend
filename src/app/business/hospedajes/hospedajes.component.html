@@ -42,7 +42,7 @@
             <td>{{hospedaje.tipoHabitacion}}</td>
             <td>{{hospedaje.descripcion}}</td>
             <td class="button-acciones">
-              <button class="edit">
+              <button (click)="openModalUpdateHospedaje(hospedaje)" class="edit">
                 <i id="pencil" class="fa-solid fa-pencil"></i>
               </button>
             </td>
@@ -71,6 +71,6 @@
   <app-hospedaje-add-modal></app-hospedaje-add-modal>
 </div>
 <div *ngIf="isModalUpdateHospedajeVisible && hospedajeSelect">
-  <app-hospedaje-update-modal></app-hospedaje-update-modal>
+  <app-hospedaje-update-modal [hospedaje]="hospedajeSelect!"></app-hospedaje-update-modal>
 </div>
 
