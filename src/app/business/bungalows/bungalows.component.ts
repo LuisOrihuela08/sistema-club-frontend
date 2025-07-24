@@ -3,14 +3,14 @@ import { Bungalow } from '../../shared/models/Bungalow';
 import { Subscription } from 'rxjs';
 import { BungalowsService } from '../../shared/services/bungalows.service';
 import { ModalService } from '../../shared/services/modal.service';
-import { error } from 'console';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BungalowAddModalComponent } from './bungalow-add-modal/bungalow-add-modal.component';
 
 @Component({
   selector: 'app-bungalows',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BungalowAddModalComponent],
   templateUrl: './bungalows.component.html',
   styleUrl: './bungalows.component.css'
 })
@@ -39,6 +39,18 @@ export class BungalowsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBungalowsByPagination();
+    this.modalService.$modalAgregarBungalow.subscribe((valor) => {this.isModalAddBungalowVisible = valor});
+    this.bungalowSubscribe = this.bungalowService.bungalowUpdate$.subscribe(
+      () => {
+        this.getBungalowsByPagination();
+        console.log('Bungalows actualizados en tiempo real');
+      }
+    )
+  }
+
+  //Método para abrir el modal de agregar bungalow
+  openModalAddBungalow(): void {
+    this.modalService.$modalAgregarBungalow.emit(true);
   }
 
   //Método para listar los bungalows con  paginación

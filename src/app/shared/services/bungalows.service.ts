@@ -41,7 +41,7 @@ export class BungalowsService {
 
   //Método para agregar un bungalow
   addBungalow(bungalow: Bungalow): Observable<any>{
-    return this.http.post('http://localhost:8080/api/v1/bungalow', bungalow);
+    return this.http.post('http://localhost:8080/api/v1/bungalow/', bungalow);
   }
 
   //Método para actualizar un bungalow

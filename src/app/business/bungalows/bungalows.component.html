@@ -18,6 +18,9 @@
                     <button (click)="cleanFilters()"><i class="fa-solid fa-broom"></i></button>
                 </div>
             </div>
+            <div class="agregar">
+                <button (click)="openModalAddBungalow()"><i class="fa-solid fa-plus"></i> Agregar Bungalow</button>
+            </div>
         </div>
         <div class="tabla-content">
             <table>
@@ -28,18 +31,19 @@
                         <th>Capacidad</th>
                         <th>Precio</th>
                         <th>Descripción</th>
-                        <th>Disponible</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let bungalow of bungalows">
+                    <tr *ngFor="let bungalow of bungalows" [ngClass]="{'fila-no-disponible': !bungalow.disponible}">
                         <td>{{bungalow.codigo}}</td>
                         <td>{{bungalow.capacidad}}</td>
                         <td>{{bungalow.precio}}</td>
                         <td>{{bungalow.descripcion}}</td>
-                        <td>{{bungalow.disponible}}</td>
                         <td class="button-acciones">
+                            <button class="trash">
+                                <i id="trash" class="fa-solid fa-trash"></i>
+                            </button>
                             <button class="edit">
                                 <i id="pencil" class="fa-solid fa-pencil"></i>
                             </button>
@@ -63,8 +67,8 @@
   </div>
 </div>
 
-<!--Seccion Modal
-<div *ngIf="isModalUpdateClienteVisible && clienteSelect">
-  <app-clientes-update-modal [cliente] = "clienteSelect!"></app-clientes-update-modal>
+<!--Seccion Modal-->
+<div *ngIf="isModalAddBungalowVisible == true">
+  <app-bungalow-add-modal></app-bungalow-add-modal>
 </div>
--->
+

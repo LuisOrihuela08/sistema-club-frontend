@@ -102,10 +102,11 @@
     padding: 12px 15px;
     text-align: center;
 }
+/*Esto lo estoy comentando porque no se ve bien el hover en la tabla, ya que se ve el fondo blanco y no se distingue bien el hover
 .content .tabla-content tr:hover{
     background: #f1f1f1;
 }
-
+*/
 .content .tabla-content .button-acciones{
     display: flex;
     gap: 20px;
@@ -162,4 +163,8 @@
 .paginacion span{
     font-weight: bold;
     font-family: 'Quicksand';
+}
+.fila-no-disponible {
+  background-color: #ffe5e5; /* fondo rojo claro */
+  color: #a00000; /* texto más oscuro */
 }

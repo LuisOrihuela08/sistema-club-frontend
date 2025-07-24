@@ -1,0 +1,50 @@
+<div class="contenedor">
+    <div class="modal-content">
+        <div class="modal-content-header">
+            <div class="titulo-modal">
+                <h1>Completar todos los campos:</h1>
+            </div>
+            <div class="modal-boton">
+                <a >
+                    <button (click)="closeModalAddBungalow()"><i class="fa-solid fa-circle-xmark"></i></button>
+                </a>
+            </div>
+        </div>
+        <div class="modal-inputs">
+            <form [formGroup]="bungalowForm" (ngSubmit)="addBungalow()">
+                <div class="inputs-compartidos">
+                    <div>
+                        <label for="codigo">Código:</label>
+                        <input formControlName="codigo" id="codigo" name="codigo" type="text" required>
+                    </div>
+                </div>
+                <div class="inputs-compartidos">
+                    <div>
+                        <label for="capacidad">Capacidad:</label>
+                        <input formControlName="capacidad" id="capacidad" name="capacidad" type="number" required>
+                    </div>
+                    <div>
+                        <label for="precio">Precio:</label>
+                        <input formControlName="precio" id="precio" name="precio" type="number" required>
+                    </div>
+                </div>
+                <div class="inputs-compartidos">
+                    <div>
+                        <label for="descripcion">Descripción:</label>
+                        <input formControlName="descripcion" id="descripcion" name="descripcion" type="text" required>
+                    </div>
+                    <div>
+                        <label for="disponible">Disponible:</label>
+                        <input formControlName="disponible" id="disponible" name="disponible" type="checkbox" required>
+                    </div>
+                </div>
+                <div class="boton-agregar">
+                    <button type="submit" >Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
