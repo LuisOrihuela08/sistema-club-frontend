@@ -1,0 +1,83 @@
+
+<div class="body">
+    <div class="productos-titulo">
+        <h1>Bienvenido al panel de Servicio de Piscina</h1>
+    </div>
+    <div class="content">
+        <div class="cabecera">
+            <div class="acciones">
+                <div class="inputs">
+                    <label for="">Código:</label>
+                    <input type="search">
+                </div>
+                <div class="inputs">
+                    <button>Disponibles</button>
+                    <button>No Disponibles</button>
+                </div>
+                <div class="inputs">
+                    <button (click)="cleanFilters()"><i class="fa-solid fa-broom"></i></button>
+                </div>
+            </div>
+            <div class="agregar">
+                <button><i class="fa-solid fa-plus"></i> Agregar Bungalow</button>
+            </div>
+        </div>
+        <div class="tabla-content">
+            <table>
+                <thead>
+                    <tr>
+                       <!-- <th>ID</th>-->
+                        <th>Precio Unitario</th>
+                        <th>Cantidad Personas</th>
+                        <th>Monto Total</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>DNI</th>
+                        <th>Teléfono</th>
+                        <th>Método Pago</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let servicio of serviciosPiscina">
+                        <td>{{servicio.precioUnitario}}</td>
+                        <td>{{servicio.cantidadPersonas}}</td>
+                        <td>{{servicio.montoTotal}}</td>
+                        <td>{{servicio.fecha}}</td>
+                        <td>{{servicio.cliente.name + ' ' + servicio.cliente.lastName}}</td>
+                        <td>{{servicio.cliente.dni}}</td>
+                        <td>{{servicio.cliente.telephone}}</td>
+                        <td>{{servicio.metodoPago.name}}</td>
+                        <td class="button-acciones">
+                            <button class="edit">
+                                <i id="pencil" class="fa-solid fa-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+         <!--SECCIÓN DE MENSAJES-->
+    <!--Mensaje para la búsqueda por dni-->
+   <!-- <p *ngIf="serviciosPiscina.length === 0 && codigoBungalowBuscado.trim() !== ''" >No se encontraron resultados con el Código: <strong>{{codigoBungalowBuscado}}</strong></p>-->
+    <!--SECCIÓN DE PAGINACIÓN-->
+   <div class="paginacion">
+            <button (click)="prevPage()" [disabled]="currentPage === 0"><i class="fa-solid fa-chevron-left"></i>
+                Anterior</button>
+            <span>Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+            <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Siguiente <i
+                    class="fa-solid fa-chevron-right"></i></button>
+        </div>
+  </div>
+</div>
+
+<!--Seccion Modal
+<div *ngIf="isModalAddBungalowVisible == true">
+  <app-bungalow-add-modal></app-bungalow-add-modal>
+</div>
+<div *ngIf="isModalUpdateBungalowVisible && bungalowSelect">
+  <app-bungalow-update-modal [bungalow]="bungalowSelect!"></app-bungalow-update-modal>
+</div>
+-->
+

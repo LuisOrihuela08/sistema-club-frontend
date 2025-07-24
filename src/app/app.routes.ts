@@ -23,13 +23,25 @@ export const routes: Routes = [
         loadComponent: () => import('./business/hospedajes/hospedajes.component').then(m => m.HospedajesComponent)
       },
       {
-        path:'clientes',
-        redirectTo: 'clientes',
+        path:'servicio-piscina',
+        loadComponent: () => import('./business/servicio-piscina/servicio-piscina.component').then(m => m.ServicioPiscinaComponent)
+      },
+      {
+        path: 'servicio-bungalow',
+        loadComponent: () => import('./business/servicio-bungalow/servicio-bungalow.component').then(m => m.ServicioBungalowComponent)
+      },
+      {
+        path: 'servicio-hospedaje',
+        loadComponent: () => import('./business/servicio-hospedaje/servicio-hospedaje.component').then(m => m.ServicioHospedajeComponent)
+      },
+      {
+        path:'servicio-piscina',
+        redirectTo: 'servicio-piscina',
         pathMatch: 'full'
       },
       {
         path: '**',
-        redirectTo: 'clientes'
+        redirectTo: 'servicio-piscina'
       }
     ]
   }
