@@ -4,5 +4,6 @@ export class Hospedaje {
   precio: number = 0;
   capacidad: number = 0;
   descripcion: string = '';
+  tipoHabitacion: string = '';
   disponible: boolean = true;
 }

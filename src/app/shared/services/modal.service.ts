@@ -8,6 +8,10 @@ export class ModalService {
   constructor() { }
 
   //Esto es para método de pago
+  $modalAgregarHospedaje = new EventEmitter<any>();
+  $modalEditarHospedaje  = new EventEmitter<any>();
+
+  //Esto es para método de pago
   $modalAgregarBungalow = new EventEmitter<any>();
   $modalEditarBungalow  = new EventEmitter<any>();
 

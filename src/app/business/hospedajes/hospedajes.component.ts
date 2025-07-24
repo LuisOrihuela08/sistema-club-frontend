@@ -5,11 +5,14 @@ import { ModalService } from '../../shared/services/modal.service';
 import { CommonModule } from '@angular/common';
 import { error } from 'console';
 import { FormsModule } from '@angular/forms';
+import { HospedajeAddModalComponent } from './hospedaje-add-modal/hospedaje-add-modal.component';
+import { Subscription } from 'rxjs';
+import { HospedajeUpdateModalComponent } from './hospedaje-update-modal/hospedaje-update-modal.component';
 
 @Component({
   selector: 'app-hospedajes',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HospedajeAddModalComponent, HospedajeUpdateModalComponent],
   templateUrl: './hospedajes.component.html',
   styleUrl: './hospedajes.component.css'
 })
@@ -24,12 +27,38 @@ export class HospedajesComponent implements OnInit {
   pageSize: number = 14;
   totalPages: number = 1;
 
+  //Seccion de modales
+  isModalAddHospedajeVisible: boolean = false;
+  isModalUpdateHospedajeVisible: boolean = false;
+  hospedajeSelect: Hospedaje | null = null; // Para almacenar el hospedaje seleccionado para actualizar
+
+  //Seccion para la subscripcion y actualización de hospedajes
+  private hospedajeSubscribe: Subscription = undefined!; // Para actualizar los hospedajes en tiempo real
+
   constructor(private hospedajeService: HospedajesService,
               private modalService: ModalService
   ){}
 
   ngOnInit(): void {
     this.getHospedajesByPagination();
+    this.modalService.$modalAgregarHospedaje.subscribe((valor) => {this.isModalAddHospedajeVisible =valor});
+    this.modalService.$modalEditarHospedaje.subscribe((valor) => {this.isModalUpdateHospedajeVisible =valor});
+    this.hospedajeSubscribe = this.hospedajeService.hospedajeUpdate$.subscribe(
+      () => {
+        this.getHospedajesByPagination();
+        console.log('Hospedajes actualizados en tiempo real');
+      }
+    )
+  }
+
+  openModalAddHospedaje(): void{
+    this.modalService.$modalAgregarHospedaje.emit(true);
+    console.log('Modal de agregar hospedaje abierto', this.isModalAddHospedajeVisible);
+  }
+
+  openModalUpdateHospedaje(hospedaje: Hospedaje): void {
+    this.hospedajeSelect = hospedaje; // Le paso el hospedaje seleccionado
+    this.modalService.$modalEditarHospedaje.emit(true);
   }
 
   //Método para listar los hospedajes con paginación

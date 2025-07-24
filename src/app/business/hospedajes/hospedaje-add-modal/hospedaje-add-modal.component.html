@@ -1,0 +1,59 @@
+<div class="contenedor">
+  <div class="modal-content">
+    <div class="modal-content-header">
+      <div class="titulo-modal">
+        <h1>Completar todos los campos:</h1>
+      </div>
+      <div class="modal-boton">
+        <a>
+          <button (click)="closeModalAddHospedaje()"><i class="fa-solid fa-circle-xmark"></i></button>
+        </a>
+      </div>
+    </div>
+    <div class="modal-inputs">
+      <form [formGroup]="hospedajeForm" (ngSubmit)="addHospedaje()">
+        <div class="inputs-compartidos">
+          <div>
+            <label for="codigoHabitacion">Código:</label>
+            <input formControlName="codigoHabitacion" id="codigoHabitacion" name="codigoHabitacion" type="text"
+              required>
+          </div>
+        </div>
+        <div class="inputs-compartidos">
+          <div>
+            <label for="capacidad">Capacidad:</label>
+            <input formControlName="capacidad" id="capacidad" name="capacidad" type="number" required>
+          </div>
+          <div>
+            <label for="precio">Precio:</label>
+            <input formControlName="precio" id="precio" name="precio" type="number" required>
+          </div>
+        </div>
+        <div class="inputs-compartidos">
+          <div>
+            <label for="disponible">Disponible:</label>
+            <input formControlName="disponible" id="disponible" name="disponible" type="checkbox" required>
+          </div>
+          <div>
+            <label for="tipoHabitacion">Tipo de Habitación:</label>
+            <select id="tipoHabitacion" formControlName="tipoHabitacion" required>
+              <option value="" disabled selected>Seleccione un tipo</option>
+              <option *ngFor="let tipo of tiposHabitacion" [value]="tipo">
+                {{ tipo }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="inputs-compartidos">
+          <div>
+            <label for="descripcion">Descripción:</label>
+            <textarea formControlName="descripcion" name="descripcion" id="descripcion" required></textarea>
+          </div>
+        </div>
+        <div class="boton-agregar">
+          <button type="submit">Agregar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

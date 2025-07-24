@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="agregar">
-        <button><i class="fa-solid fa-plus"></i> Agregar Cuarto</button>
+        <button (click)="openModalAddHospedaje()"><i class="fa-solid fa-plus"></i> Agregar Cuarto</button>
       </div>
     </div>
     <div class="tabla-content">
@@ -29,6 +29,7 @@
             <th>Código</th>
             <th>Capacidad</th>
             <th>Precio</th>
+            <th>Tipo</th>
             <th>Descripción</th>
             <th>Acción</th>
           </tr>
@@ -38,6 +39,7 @@
             <td>{{hospedaje.codigoHabitacion}}</td>
             <td>{{hospedaje.capacidad}}</td>
             <td>{{hospedaje.precio}}</td>
+            <td>{{hospedaje.tipoHabitacion}}</td>
             <td>{{hospedaje.descripcion}}</td>
             <td class="button-acciones">
               <button class="edit">
@@ -64,11 +66,11 @@
   </div>
 </div>
 
-<!--Seccion Modal
-<div *ngIf="isModalAddBungalowVisible == true">
-  <app-bungalow-add-modal></app-bungalow-add-modal>
+<!--Seccion Modal-->
+<div *ngIf="isModalAddHospedajeVisible == true">
+  <app-hospedaje-add-modal></app-hospedaje-add-modal>
 </div>
-<div *ngIf="isModalUpdateBungalowVisible && bungalowSelect">
-  <app-bungalow-update-modal [bungalow]="bungalowSelect!"></app-bungalow-update-modal>
+<div *ngIf="isModalUpdateHospedajeVisible && hospedajeSelect">
+  <app-hospedaje-update-modal></app-hospedaje-update-modal>
 </div>
--->
+

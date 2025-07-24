@@ -29,6 +29,10 @@ export class HospedajesService {
     return this.http.get('http://localhost:8080/api/v1/hospedaje/codigo/' + codigo);
   }
 
+  getTipoHabitacion(): Observable<any>{
+    return this.http.get('http://localhost:8080/api/v1/hospedaje/tipos-habitacion');
+  }
+
   addHospedaje(hospedaje: Hospedaje): Observable<any>{
     return this.http.post('http://localhost:8080/api/v1/hospedaje/', hospedaje);
   }
