@@ -7,20 +7,20 @@
       <div class="acciones">
         <div class="inputs">
           <label for="">F. Inicio:</label>
-          <input type="date" [(ngModel)] = "fechaInicio">
-          <button (click)="getServicioBungalowByFecha()" >🔍</button>
+          <input type="date" [(ngModel)]="fechaInicio">
+          <button (click)="getServicioBungalowByFecha()">🔍</button>
         </div>
         <div class="inputs">
-          <input type="date" [(ngModel)] = "desde">
-          <input type="date" [(ngModel)] = "hasta">
+          <input type="date" [(ngModel)]="desde">
+          <input type="date" [(ngModel)]="hasta">
           <button (click)="getServicioBungalowByFechaBetween()">🔍</button>
         </div>
         <div class="inputs">
           <label for="">M. Pago:</label>
-          <input type="search" placeholder="Ejm: Yape">
-          <input type="date">
-          <input type="date">
-          <button>🔍</button>
+          <input type="search" placeholder="Ejm: Yape" [(ngModel)]="metodoPagoSeleccionado">
+          <input type="date" [(ngModel)]="desdeMetodo">
+          <input type="date" [(ngModel)]="hastaMetodo">
+          <button (click)="getServicioBungalowByMetodoPagoAndFechaBetween()">🔍</button>
         </div>
         <div class="inputs">
           <label for="">DNI:</label>
@@ -29,7 +29,7 @@
         <div class="inputs">
           <button (click)="cleanFilters()"><i class="fa-solid fa-broom"></i></button>
         </div>
-         <div class="inputs">
+        <div class="inputs">
           <button class="pdf-button"><i class="fa-solid fa-file-pdf"></i> Reporte</button>
         </div>
       </div>
@@ -77,10 +77,17 @@
     <!--SECCIÓN DE MENSAJES-->
     <!--Mensaje para la búsqueda por fecha-->
     <p *ngIf="serviciosBungalow.length === 0 && fechaInicio">No se encontraron resultados con la fecha:
-      <strong>{{fechaInicio | date:'dd/MM/yyyy'}}</strong></p>
-      <!--Mensaje para la búsqueda entre fechas-->
+      <strong>{{fechaInicio | date:'dd/MM/yyyy'}}</strong>
+    </p>
+    <!--Mensaje para la búsqueda entre fechas-->
     <p *ngIf="serviciosBungalow.length === 0 && desde && hasta">No se encontraron resultados entre las fechas:
-      <strong>{{desde | date:'dd/MM/yyyy'}} - {{hasta | date:'dd/MM/yyyy'}}</strong></p>
+      <strong>{{desde | date:'dd/MM/yyyy'}} - {{hasta | date:'dd/MM/yyyy'}}</strong>
+    </p>
+    <!--Mensaje para la búsqueda entre fechas y método de pago-->
+    <p *ngIf="serviciosBungalow.length === 0 && desdeMetodo && hastaMetodo && metodoPagoSeleccionado">No se encontraron resultados entre las fechas:
+      <strong>{{desdeMetodo | date:'dd/MM/yyyy'}} - {{hastaMetodo | date:'dd/MM/yyyy'}}</strong> y método de pago:
+      <strong>{{metodoPagoSeleccionado}}</strong>
+    </p>
     <!--SECCIÓN DE PAGINACIÓN-->
     <div class="paginacion">
       <button (click)="prevPage()" [disabled]="currentPage === 0"><i class="fa-solid fa-chevron-left"></i>
@@ -100,4 +107,3 @@
   <app-bungalow-update-modal [bungalow]="bungalowSelect!"></app-bungalow-update-modal>
 </div>
 -->
-

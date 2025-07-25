@@ -19,13 +19,16 @@ export class ServicioBungalowComponent implements OnInit {
   fechaInicio: Date | null = null; // Para filtrar por fecha
   desde: Date | null = null; // Para filtrar por fecha desde
   hasta: Date | null = null; // Para filtrar por fecha hasta
+  desdeMetodo: Date | null = null; // Para filtrar por fecha desde método de pago
+  hastaMetodo: Date | null = null; // Para filtrar por fecha hasta método de pago
+  metodoPagoSeleccionado: string = ''; // Para filtrar por método de pago
 
   //Seccion de paginacion
   currentPage: number = 0;//Numero de pagina
   pageSize: number = 14; // Número de elementos por página
   totalPages: number = 1; // Se actualizará según la respuesta del backend
 
-  constructor(private servicioBungalowService: ServicioBungalowService){}
+  constructor(private servicioBungalowService: ServicioBungalowService) { }
 
 
   ngOnInit(): void {
@@ -61,16 +64,16 @@ export class ServicioBungalowComponent implements OnInit {
 
   //Filtro por fecha de inicio
   getServicioBungalowByFecha(): void {
-    if(!this.fechaInicio){
+    if (!this.fechaInicio) {
       console.warn('Fecha de inicio no puede ser nula');
       this.getServicioBungalowByPagination();
       Swal.fire({
-              icon: 'warning',
-              title: 'Fecha no seleccionada',
-              text: 'Por favor, seleccione una fecha para realizar la búsqueda.',
-              confirmButtonText: 'Aceptar'
-            });
-            return;
+        icon: 'warning',
+        title: 'Fecha no seleccionada',
+        text: 'Por favor, seleccione una fecha para realizar la búsqueda.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
     }
     const fechaSeleccionada = new Date(this.fechaInicio);
 
@@ -82,8 +85,8 @@ export class ServicioBungalowComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener los servicios de bungalows por fecha: ', error);
-         this.serviciosBungalow = [];
-         this.totalPages = 0;
+        this.serviciosBungalow = [];
+        this.totalPages = 0;
       }
     );
   }
@@ -116,7 +119,36 @@ export class ServicioBungalowComponent implements OnInit {
         this.totalPages = 0;
       }
     );
+  }
 
+  getServicioBungalowByMetodoPagoAndFechaBetween(): void {
+    if (!this.desdeMetodo || !this.hastaMetodo || !this.metodoPagoSeleccionado) {
+      console.warn('No se han seleccionado todos los filtros necesarios');
+      this.getServicioBungalowByPagination();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Filtros incompletos',
+        text: 'Por favor, seleccione un método de pago y ambas fechas para realizar la búsqueda.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+    const desdeSeleccionada = new Date(this.desdeMetodo);
+    const hastaSeleccionada = new Date(this.hastaMetodo);
+
+    this.servicioBungalowService.getServicioBungalowByMetodoPagoAndFechaBetween(this.currentPage, this.pageSize, this.metodoPagoSeleccionado, desdeSeleccionada, hastaSeleccionada).subscribe(
+      (data: any) => {
+        console.log(this.metodoPagoSeleccionado);
+        this.serviciosBungalow = data.content;
+        this.totalPages = data.totalPages;
+        console.log('Servicios de bungalows obtenidos por método de pago y fechas: ', this.serviciosBungalow);
+      },
+      (error) => {
+        console.error('Error al obtener los servicios de bungalows por método de pago y fechas: ', error);
+        this.serviciosBungalow = [];
+        this.totalPages = 0;
+      }
+    );
   }
 
 
@@ -125,6 +157,9 @@ export class ServicioBungalowComponent implements OnInit {
     this.fechaInicio = null;
     this.desde = null;
     this.hasta = null;
+    this.desdeMetodo = null;
+    this.hastaMetodo = null;
+    this.metodoPagoSeleccionado = '';
     this.getServicioBungalowByPagination();
   }
 }

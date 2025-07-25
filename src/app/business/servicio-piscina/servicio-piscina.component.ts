@@ -18,6 +18,8 @@ export class ServicioPiscinaComponent implements OnInit {
   fechaInicio: Date | null = null; // Para filtrar por fecha
   desde: Date | null = null; // Para filtrar por fecha desde
   hasta: Date | null = null; // Para filtrar por fecha hasta
+  desdeMetodo: Date | null = null; // Para filtrar por fecha desde método de pago
+  hastaMetodo: Date | null = null; // Para filtrar por fecha hasta método de pago
   dniSeleccionado: string = ''; // Para filtrar por DNI del cliente
   metodoPagoSeleccionado: string = ''; // Para filtrar por método de pago
   filtroActual: 'FECHA' | 'RANGO' | 'METODO_Y_FECHAS' | 'DNI' | null = null; // Para saber qué filtro se está aplicando
@@ -145,7 +147,7 @@ export class ServicioPiscinaComponent implements OnInit {
   }
 
   getServicioPiscinaByMetodoPagoAndFechaBetween(): void {
-    if (!this.desde || !this.hasta || !this.metodoPagoSeleccionado) {
+    if (!this.desdeMetodo || !this.hastaMetodo || !this.metodoPagoSeleccionado) {
       console.warn('No se han seleccionado todos los filtros necesarios');
       this.getServicioPiscinaByPagination();
       Swal.fire({
@@ -157,8 +159,8 @@ export class ServicioPiscinaComponent implements OnInit {
       return;
     }
 
-    const desdeSeleccionada = new Date(this.desde);
-    const hastaSeleccionada = new Date(this.hasta);
+    const desdeSeleccionada = new Date(this.desdeMetodo);
+    const hastaSeleccionada = new Date(this.hastaMetodo);
 
     this.servicioPiscinaService.getServicioPiscinaByMetodoPagoAndFechaBetween(this.currentPage, this.pageSize, this.metodoPagoSeleccionado, desdeSeleccionada, hastaSeleccionada).subscribe(
       (data: any) => {
@@ -192,8 +194,8 @@ export class ServicioPiscinaComponent implements OnInit {
         break;
 
       case 'METODO_Y_FECHAS':
-        const desdeSeleccionada2 = new Date(this.desde!);
-        const hastaSeleccionada2 = new Date(this.hasta!);
+        const desdeSeleccionada2 = new Date(this.desdeMetodo!);
+        const hastaSeleccionada2 = new Date(this.hastaMetodo!);
         this.servicioPiscinaService.exportPdfServicioPiscina(undefined, this.metodoPagoSeleccionado, undefined, desdeSeleccionada2, hastaSeleccionada2).subscribe(this.descargarPdf, this.handleError);
         console.log('Exportando PDF por método de pago y rango de fechas Ok ', this.metodoPagoSeleccionado, desdeSeleccionada2, hastaSeleccionada2);
         break;
@@ -237,6 +239,8 @@ export class ServicioPiscinaComponent implements OnInit {
     this.fechaInicio = null;
     this.desde = null;
     this.hasta = null;
+    this.desdeMetodo = null;
+    this.hastaMetodo = null;
     this.dniSeleccionado = '';
     this.metodoPagoSeleccionado = '';
     this.getServicioPiscinaByPagination();

@@ -18,8 +18,8 @@
         <div class="inputs">
           <label for="">M. Pago:</label>
           <input type="search" [(ngModel)]="metodoPagoSeleccionado" placeholder="Ejm: Yape">
-          <input type="date" [(ngModel)]="desde">
-          <input type="date" [(ngModel)]="hasta">
+          <input type="date" [(ngModel)]="desdeMetodo">
+          <input type="date" [(ngModel)]="hastaMetodo">
           <button (click)="getServicioPiscinaByMetodoPagoAndFechaBetween()">🔍</button>
         </div>
         <div class="inputs">
@@ -29,8 +29,9 @@
         <div class="inputs">
           <button (click)="cleanFilters()"><i class="fa-solid fa-broom"></i></button>
         </div>
-         <div class="inputs">
-          <button (click)="getServicioPiscinaPdfByFilters()" class="pdf-button"><i class="fa-solid fa-file-pdf"></i> Reporte</button>
+        <div class="inputs">
+          <button (click)="getServicioPiscinaPdfByFilters()" class="pdf-button"><i class="fa-solid fa-file-pdf"></i>
+            Reporte</button>
         </div>
       </div>
       <div class="agregar">
@@ -76,10 +77,18 @@
     <!--SECCIÓN DE MENSAJES-->
     <!--Mensaje para la búsqueda por dni-->
     <p *ngIf="serviciosPiscina.length === 0 && dniSeleccionado.trim() !== ''">No se encontraron resultados con el DNI:
-      <strong>{{dniSeleccionado}}</strong></p>
-      <!--Mensaje para la búsqueda por fecha-->
+      <strong>{{dniSeleccionado}}</strong>
+    </p>
+    <!--Mensaje para la búsqueda por fecha-->
     <p *ngIf="serviciosPiscina.length === 0 && fechaInicio">No se encontraron resultados con la fecha:
-      <strong>{{fechaInicio | date:'dd/MM/yyyy'}}</strong></p>
+      <strong>{{fechaInicio | date:'dd/MM/yyyy'}}</strong>
+    </p>
+    <!--Mensaje para la búsqueda entre fechas y método de pago-->
+    <p *ngIf="serviciosPiscina.length === 0 && desdeMetodo && hastaMetodo && metodoPagoSeleccionado">No se encontraron resultados
+      entre las fechas:
+      <strong>{{desdeMetodo | date:'dd/MM/yyyy'}} - {{hastaMetodo | date:'dd/MM/yyyy'}}</strong> y método de pago:
+      <strong>{{metodoPagoSeleccionado}}</strong>
+    </p>
     <!--SECCIÓN DE PAGINACIÓN-->
     <div class="paginacion">
       <button (click)="prevPage()" [disabled]="currentPage === 0"><i class="fa-solid fa-chevron-left"></i>

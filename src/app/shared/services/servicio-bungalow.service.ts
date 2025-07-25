@@ -51,7 +51,7 @@ export class ServicioBungalowService {
   getServicioBungalowByMetodoPagoAndFechaBetween(page: number, size: number, metodoPago: string, desde: Date, hasta: Date): Observable<any>{
     const params = new HttpParams().set('page', page.toString())
                                     .set('size', size.toString())
-                                    .set('metodoPago', metodoPago)
+                                    .set('nameMetodoPago', metodoPago)
                                     .set('desde', desde.toISOString().split('T')[0])
                                     .set('hasta', hasta.toISOString().split('T')[0]);
     return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/pagination/metodoPago/fecha-between', { params });
