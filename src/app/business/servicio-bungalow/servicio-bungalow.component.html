@@ -1,1 +1,100 @@
-<p>servicio-bungalow works!</p>
+<div class="body">
+  <div class="productos-titulo">
+    <h1>Bienvenido al panel de Servicio de Bugalows</h1>
+  </div>
+  <div class="content">
+    <div class="cabecera">
+      <div class="acciones">
+        <div class="inputs">
+          <!--<label for="">Fecha:</label>-->
+          <input type="date">
+          <button >🔍</button>
+        </div>
+        <div class="inputs">
+          <input type="date">
+          <input type="date">
+          <button>🔍</button>
+        </div>
+        <div class="inputs">
+          <label for="">M. Pago:</label>
+          <input type="search" placeholder="Ejm: Yape">
+          <input type="date">
+          <input type="date">
+          <button>🔍</button>
+        </div>
+        <div class="inputs">
+          <label for="">DNI:</label>
+          <input type="search">
+        </div>
+        <div class="inputs">
+          <button (click)="cleanFilters()"><i class="fa-solid fa-broom"></i></button>
+        </div>
+         <div class="inputs">
+          <button class="pdf-button"><i class="fa-solid fa-file-pdf"></i> Reporte</button>
+        </div>
+      </div>
+      <div class="agregar">
+        <button><i class="fa-solid fa-plus"></i> Agregar Servicio</button>
+      </div>
+    </div>
+    <div class="tabla-content">
+      <table>
+        <thead>
+          <tr>
+            <th>Bungalow</th>
+            <th>Precio</th>
+            <th>Monto Total</th>
+            <th>Método Pago</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Cliente</th>
+            <th>DNI</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let servicio of serviciosBungalow">
+            <td>{{servicio.bungalow.codigo}}</td>
+            <td>{{servicio.bungalow.precio}}</td>
+            <td>{{servicio.montoTotal}}</td>
+            <td>{{servicio.metodoPago.name}}</td>
+            <td>{{servicio.fechaInicio}}</td>
+            <td>{{servicio.fechaFin}}</td>
+            <td>{{servicio.cliente.name + ' ' + servicio.cliente.lastName}}</td>
+            <td>{{servicio.cliente.dni}}</td>
+            <td>{{servicio.cliente.telephone}}</td>
+            <td class="button-acciones">
+              <button class="edit">
+                <i id="pencil" class="fa-solid fa-pencil"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!--SECCIÓN DE MENSAJES-->
+    <!--Mensaje para la búsqueda por dni-->
+  <!--  <p *ngIf="serviciosPiscina.length === 0 && dniSeleccionado.trim() !== ''">No se encontraron resultados con el DNI:
+      <strong>{{dniSeleccionado}}</strong></p>-->
+    <!--SECCIÓN DE PAGINACIÓN-->
+    <div class="paginacion">
+      <button (click)="prevPage()" [disabled]="currentPage === 0"><i class="fa-solid fa-chevron-left"></i>
+        Anterior</button>
+      <span>Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Siguiente <i
+          class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!--Seccion Modal
+<div *ngIf="isModalAddBungalowVisible == true">
+  <app-bungalow-add-modal></app-bungalow-add-modal>
+</div>
+<div *ngIf="isModalUpdateBungalowVisible && bungalowSelect">
+  <app-bungalow-update-modal [bungalow]="bungalowSelect!"></app-bungalow-update-modal>
+</div>
+-->
+
