@@ -78,7 +78,7 @@
     <p *ngIf="serviciosPiscina.length === 0 && dniSeleccionado.trim() !== ''">No se encontraron resultados con el DNI:
       <strong>{{dniSeleccionado}}</strong></p>
       <!--Mensaje para la búsqueda por fecha-->
-    <p *ngIf="serviciosPiscina.length === 0 && fechaInicio && fechaInicio.toString().trim() !== ''">No se encontraron resultados con la fecha:
+    <p *ngIf="serviciosPiscina.length === 0 && fechaInicio">No se encontraron resultados con la fecha:
       <strong>{{fechaInicio | date:'dd/MM/yyyy'}}</strong></p>
     <!--SECCIÓN DE PAGINACIÓN-->
     <div class="paginacion">

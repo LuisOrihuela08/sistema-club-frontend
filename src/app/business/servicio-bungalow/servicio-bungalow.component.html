@@ -11,9 +11,9 @@
           <button (click)="getServicioBungalowByFecha()" >🔍</button>
         </div>
         <div class="inputs">
-          <input type="date">
-          <input type="date">
-          <button>🔍</button>
+          <input type="date" [(ngModel)] = "desde">
+          <input type="date" [(ngModel)] = "hasta">
+          <button (click)="getServicioBungalowByFechaBetween()">🔍</button>
         </div>
         <div class="inputs">
           <label for="">M. Pago:</label>
@@ -76,8 +76,11 @@
 
     <!--SECCIÓN DE MENSAJES-->
     <!--Mensaje para la búsqueda por fecha-->
-    <p *ngIf="serviciosBungalow.length === 0 && fechaInicio && fechaInicio.toString().trim() !== ''">No se encontraron resultados con la fecha:
+    <p *ngIf="serviciosBungalow.length === 0 && fechaInicio">No se encontraron resultados con la fecha:
       <strong>{{fechaInicio | date:'dd/MM/yyyy'}}</strong></p>
+      <!--Mensaje para la búsqueda entre fechas-->
+    <p *ngIf="serviciosBungalow.length === 0 && desde && hasta">No se encontraron resultados entre las fechas:
+      <strong>{{desde | date:'dd/MM/yyyy'}} - {{hasta | date:'dd/MM/yyyy'}}</strong></p>
     <!--SECCIÓN DE PAGINACIÓN-->
     <div class="paginacion">
       <button (click)="prevPage()" [disabled]="currentPage === 0"><i class="fa-solid fa-chevron-left"></i>

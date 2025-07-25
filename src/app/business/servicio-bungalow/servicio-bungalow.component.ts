@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClienteBungalow } from '../../shared/models/ClienteBugalow';
 import { ServicioBungalowService } from '../../shared/services/servicio-bungalow.service';
 import Swal from 'sweetalert2';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-servicio-bungalow',
@@ -17,6 +17,8 @@ export class ServicioBungalowComponent implements OnInit {
 
   serviciosBungalow: ClienteBungalow[] = [];
   fechaInicio: Date | null = null; // Para filtrar por fecha
+  desde: Date | null = null; // Para filtrar por fecha desde
+  hasta: Date | null = null; // Para filtrar por fecha hasta
 
   //Seccion de paginacion
   currentPage: number = 0;//Numero de pagina
@@ -86,10 +88,43 @@ export class ServicioBungalowComponent implements OnInit {
     );
   }
 
+  getServicioBungalowByFechaBetween(): void {
+    if (!this.desde || !this.hasta) {
+      console.warn('Ambas fechas deben ser seleccionadas para filtrar');
+      this.getServicioBungalowByPagination();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Fechas no seleccionada',
+        text: 'Por favor, seleccione ambas fechas para realizar la búsqueda.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
+    const desdeSeleccionada = new Date(this.desde);
+    const hastaSeleccionada = new Date(this.hasta);
+
+    this.servicioBungalowService.getServicioBungalowByFechaBetween(this.currentPage, this.pageSize, desdeSeleccionada, hastaSeleccionada).subscribe(
+      (data: any) => {
+        this.serviciosBungalow = data.content;
+        this.totalPages = data.totalPages;
+        console.log('Servicios de bungalows obtenidos entre fechas: ', this.serviciosBungalow);
+      },
+      (error) => {
+        console.error('Error al obtener los servicios de bungalows entre fechas: ', error);
+        this.serviciosBungalow = [];
+        this.totalPages = 0;
+      }
+    );
+
+  }
+
 
   //Esto es para limpiar los filtros
   cleanFilters(): void {
     this.fechaInicio = null;
+    this.desde = null;
+    this.hasta = null;
     this.getServicioBungalowByPagination();
   }
 }
