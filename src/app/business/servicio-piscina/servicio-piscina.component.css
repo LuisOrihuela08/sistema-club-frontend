@@ -61,21 +61,13 @@
     gap: 5px;
     align-items: center;
 }
-.content .cabecera .acciones .inputs .button-disponible{
-  background-color: #4CAF50;
+.content .cabecera .acciones .inputs .pdf-button{
+  background-color: #a00000;
   color: white;
-  transition: background-color 0.3s ease;
 }
-.content .cabecera .acciones .inputs .button-no-disponible{
-  background-color: #f44336;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-.content .cabecera .acciones .inputs .button-disponible:hover{
-  background-color: #2e7d32;
-}
-.content .cabecera .acciones .inputs .button-no-disponible:hover{
-  background-color: #b71c1c;
+
+.content .cabecera .acciones .inputs .pdf-button:hover{
+  background-color: #c04040;
 }
 /*Area de la Tabla*/
 .content .tabla-content{
