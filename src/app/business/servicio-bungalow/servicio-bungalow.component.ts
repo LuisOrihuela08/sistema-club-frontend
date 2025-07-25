@@ -22,6 +22,7 @@ export class ServicioBungalowComponent implements OnInit {
   desdeMetodo: Date | null = null; // Para filtrar por fecha desde método de pago
   hastaMetodo: Date | null = null; // Para filtrar por fecha hasta método de pago
   metodoPagoSeleccionado: string = ''; // Para filtrar por método de pago
+  dniSeleccionado: string = ''; // Para filtrar por DNI del cliente
 
   //Seccion de paginacion
   currentPage: number = 0;//Numero de pagina
@@ -151,6 +152,26 @@ export class ServicioBungalowComponent implements OnInit {
     );
   }
 
+  getServicioBungalowByClienteDni(): void {
+    if (!this.dniSeleccionado) {
+      console.warn('No se ha ingresado un DNI');
+      this.getServicioBungalowByPagination();
+      return;
+    }
+    this.servicioBungalowService.getServicioBungalowByClienteDni(this.currentPage, this.pageSize, this.dniSeleccionado).subscribe(
+      (data: any) => {
+        this.serviciosBungalow = data.content;
+        this.totalPages = data.totalPages;
+        console.log('Servicios de bungalows filtrados por DNI: ', this.serviciosBungalow);
+      },
+      (error) => {
+        console.error('Error al obtener los servicios de bungalows filtrados por DNI: ', error);
+        this.serviciosBungalow =[];
+        this.totalPages = 0;
+      }
+    );
+  }
+
 
   //Esto es para limpiar los filtros
   cleanFilters(): void {
@@ -160,6 +181,7 @@ export class ServicioBungalowComponent implements OnInit {
     this.desdeMetodo = null;
     this.hastaMetodo = null;
     this.metodoPagoSeleccionado = '';
+    this.dniSeleccionado = '';
     this.getServicioBungalowByPagination();
   }
 }

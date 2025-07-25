@@ -24,7 +24,7 @@
         </div>
         <div class="inputs">
           <label for="">DNI:</label>
-          <input type="search">
+          <input [(ngModel)]="dniSeleccionado" (input)="getServicioBungalowByClienteDni()" type="search">
         </div>
         <div class="inputs">
           <button (click)="cleanFilters()"><i class="fa-solid fa-broom"></i></button>
@@ -87,6 +87,10 @@
     <p *ngIf="serviciosBungalow.length === 0 && desdeMetodo && hastaMetodo && metodoPagoSeleccionado">No se encontraron resultados entre las fechas:
       <strong>{{desdeMetodo | date:'dd/MM/yyyy'}} - {{hastaMetodo | date:'dd/MM/yyyy'}}</strong> y método de pago:
       <strong>{{metodoPagoSeleccionado}}</strong>
+    </p>
+    <!--Mensaje para la búsqueda por dni-->
+    <p *ngIf="serviciosBungalow.length === 0 && dniSeleccionado.trim() !== ''">No se encontraron resultados con el DNI:
+      <strong>{{dniSeleccionado}}</strong>
     </p>
     <!--SECCIÓN DE PAGINACIÓN-->
     <div class="paginacion">

@@ -89,6 +89,10 @@
       <strong>{{desdeMetodo | date:'dd/MM/yyyy'}} - {{hastaMetodo | date:'dd/MM/yyyy'}}</strong> y método de pago:
       <strong>{{metodoPagoSeleccionado}}</strong>
     </p>
+    <!--Mensaje para la búsqueda entre fechas-->
+    <p *ngIf="serviciosPiscina.length === 0 && desde && hasta">No se encontraron resultados entre las fechas:
+      <strong>{{desde | date:'dd/MM/yyyy'}} - {{hasta | date:'dd/MM/yyyy'}}</strong>
+    </p>
     <!--SECCIÓN DE PAGINACIÓN-->
     <div class="paginacion">
       <button (click)="prevPage()" [disabled]="currentPage === 0"><i class="fa-solid fa-chevron-left"></i>
