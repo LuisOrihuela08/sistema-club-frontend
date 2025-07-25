@@ -23,6 +23,7 @@ export class ServicioBungalowComponent implements OnInit {
   hastaMetodo: Date | null = null; // Para filtrar por fecha hasta método de pago
   metodoPagoSeleccionado: string = ''; // Para filtrar por método de pago
   dniSeleccionado: string = ''; // Para filtrar por DNI del cliente
+  filtroActual: 'FECHA' | 'RANGO' | 'METODO_Y_FECHAS' | 'DNI' | null = null;
 
   //Seccion de paginacion
   currentPage: number = 0;//Numero de pagina
@@ -80,6 +81,7 @@ export class ServicioBungalowComponent implements OnInit {
 
     this.servicioBungalowService.getServicioBungalowByFechaPagination(this.currentPage, this.pageSize, fechaSeleccionada).subscribe(
       (data: any) => {
+        this.filtroActual = 'FECHA';
         this.serviciosBungalow = data.content;
         this.totalPages = data.totalPages;
         console.log('Servicios de bungalows obtenidos por fecha: ', this.serviciosBungalow);
@@ -110,6 +112,7 @@ export class ServicioBungalowComponent implements OnInit {
 
     this.servicioBungalowService.getServicioBungalowByFechaBetween(this.currentPage, this.pageSize, desdeSeleccionada, hastaSeleccionada).subscribe(
       (data: any) => {
+        this.filtroActual = 'RANGO';
         this.serviciosBungalow = data.content;
         this.totalPages = data.totalPages;
         console.log('Servicios de bungalows obtenidos entre fechas: ', this.serviciosBungalow);
@@ -139,7 +142,7 @@ export class ServicioBungalowComponent implements OnInit {
 
     this.servicioBungalowService.getServicioBungalowByMetodoPagoAndFechaBetween(this.currentPage, this.pageSize, this.metodoPagoSeleccionado, desdeSeleccionada, hastaSeleccionada).subscribe(
       (data: any) => {
-        console.log(this.metodoPagoSeleccionado);
+        this.filtroActual = 'METODO_Y_FECHAS';
         this.serviciosBungalow = data.content;
         this.totalPages = data.totalPages;
         console.log('Servicios de bungalows obtenidos por método de pago y fechas: ', this.serviciosBungalow);
@@ -160,6 +163,7 @@ export class ServicioBungalowComponent implements OnInit {
     }
     this.servicioBungalowService.getServicioBungalowByClienteDni(this.currentPage, this.pageSize, this.dniSeleccionado).subscribe(
       (data: any) => {
+        this.filtroActual = 'DNI';
         this.serviciosBungalow = data.content;
         this.totalPages = data.totalPages;
         console.log('Servicios de bungalows filtrados por DNI: ', this.serviciosBungalow);
@@ -171,6 +175,61 @@ export class ServicioBungalowComponent implements OnInit {
       }
     );
   }
+
+  getServicioBungalowPdfByFilters(): void {
+
+      switch (this.filtroActual) {
+        case 'FECHA':
+          const fechaSeleccionada = new Date(this.fechaInicio!);
+          this.servicioBungalowService.exportPdfByFilters(undefined, undefined, fechaSeleccionada).subscribe(this.descargarPdf, this.handleError);
+          console.log('Exportando PDF por fecha Ok ', fechaSeleccionada);
+          break;
+
+        case 'RANGO':
+          const desdeSeleccionada = new Date(this.desde!);
+          const hastaSeleccionada = new Date(this.hasta!);
+          this.servicioBungalowService.exportPdfByFilters(undefined, undefined, undefined, desdeSeleccionada, hastaSeleccionada).subscribe(this.descargarPdf, this.handleError);
+          console.log('Exportando PDF por rango de fechas Ok ', desdeSeleccionada, hastaSeleccionada);
+          break;
+
+        case 'METODO_Y_FECHAS':
+          const desdeSeleccionada2 = new Date(this.desdeMetodo!);
+          const hastaSeleccionada2 = new Date(this.hastaMetodo!);
+          this.servicioBungalowService.exportPdfByFilters(undefined, this.metodoPagoSeleccionado, undefined, desdeSeleccionada2, hastaSeleccionada2).subscribe(this.descargarPdf, this.handleError);
+          console.log('Exportando PDF por método de pago y rango de fechas Ok ', this.metodoPagoSeleccionado, desdeSeleccionada2, hastaSeleccionada2);
+          break;
+
+        case 'DNI':
+          this.servicioBungalowService.exportPdfByFilters(this.dniSeleccionado).subscribe(this.descargarPdf, this.handleError);
+          console.log('Exportando PDF por DNI Ok ', this.dniSeleccionado);
+          break;
+
+        default:
+          Swal.fire({
+            icon: 'warning',
+            title: 'Filtros no seleccionados',
+            text: 'Por favor, aplique un filtro antes de generar el reporte.',
+            confirmButtonText: 'Aceptar'
+          });
+      }
+    }
+
+    descargarPdf = (response: Blob) => {
+      const blob = new Blob([response], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url); // Abre el PDF en una nueva pestaña
+      setTimeout(() => window.URL.revokeObjectURL(url), 5000);
+    };
+
+    handleError = (error: any) => {
+      console.error('Error al exportar PDF:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo generar el reporte.',
+        confirmButtonText: 'Aceptar'
+      });
+    };
 
 
   //Esto es para limpiar los filtros
