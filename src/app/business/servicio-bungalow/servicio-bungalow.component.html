@@ -6,9 +6,9 @@
     <div class="cabecera">
       <div class="acciones">
         <div class="inputs">
-          <!--<label for="">Fecha:</label>-->
-          <input type="date">
-          <button >🔍</button>
+          <label for="">F. Inicio:</label>
+          <input type="date" [(ngModel)] = "fechaInicio">
+          <button (click)="getServicioBungalowByFecha()" >🔍</button>
         </div>
         <div class="inputs">
           <input type="date">
@@ -75,9 +75,9 @@
     </div>
 
     <!--SECCIÓN DE MENSAJES-->
-    <!--Mensaje para la búsqueda por dni-->
-  <!--  <p *ngIf="serviciosPiscina.length === 0 && dniSeleccionado.trim() !== ''">No se encontraron resultados con el DNI:
-      <strong>{{dniSeleccionado}}</strong></p>-->
+    <!--Mensaje para la búsqueda por fecha-->
+    <p *ngIf="serviciosBungalow.length === 0 && fechaInicio && fechaInicio.toString().trim() !== ''">No se encontraron resultados con la fecha:
+      <strong>{{fechaInicio | date:'dd/MM/yyyy'}}</strong></p>
     <!--SECCIÓN DE PAGINACIÓN-->
     <div class="paginacion">
       <button (click)="prevPage()" [disabled]="currentPage === 0"><i class="fa-solid fa-chevron-left"></i>
