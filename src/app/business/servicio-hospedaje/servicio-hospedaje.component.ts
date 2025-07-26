@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ClienteHospedaje } from '../../shared/models/ClienteHospedaje';
 import { ServicioHospedajeService } from '../../shared/services/servicio-hospedaje.service';
 import Swal from 'sweetalert2';
+import { error } from 'console';
 
 @Component({
   selector: 'app-servicio-hospedaje',
@@ -14,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class ServicioHospedajeComponent implements OnInit {
 
-  serviciosHospedaje: ClienteHospedaje [] = [];
+  serviciosHospedaje: ClienteHospedaje[] = [];
   fechaInicio: Date | null = null; // Para filtrar por fecha
   desde: Date | null = null; // Para filtrar por fecha desde
   hasta: Date | null = null; // Para filtrar por fecha hasta
@@ -39,7 +40,7 @@ export class ServicioHospedajeComponent implements OnInit {
     this.servicioHospedajeService.getServicioHospedajeByPagination(this.currentPage, this.pageSize).subscribe(
       (data: any) => {
         this.serviciosHospedaje = data.content;
-        this.totalPages =data.totalPages;
+        this.totalPages = data.totalPages;
         console.log('Servicios de hospedaje obtenido: ', this.serviciosHospedaje);
       },
       (error) => {
@@ -48,7 +49,7 @@ export class ServicioHospedajeComponent implements OnInit {
     );
   }
 
-    nextPage(): void {
+  nextPage(): void {
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage++;
       this.getServicioHospedajeByPagination();
@@ -123,7 +124,7 @@ export class ServicioHospedajeComponent implements OnInit {
   }
 
   getServicioHospedajeByMetodoPagoAndFechaBetween(): void {
-   if (!this.desdeMetodo || !this.hastaMetodo || !this.metodoPagoSeleccionado) {
+    if (!this.desdeMetodo || !this.hastaMetodo || !this.metodoPagoSeleccionado) {
       console.warn('No se han seleccionado todos los filtros necesarios');
       this.getServicioHospedajeByPagination();
       Swal.fire({
@@ -153,7 +154,7 @@ export class ServicioHospedajeComponent implements OnInit {
   }
 
   getServicioHospedajeByClienteDni(): void {
-   if (!this.dniSeleccionado) {
+    if (!this.dniSeleccionado) {
       console.warn('No se ha ingresado un DNI');
       this.getServicioHospedajeByPagination();
       return;
@@ -175,59 +176,78 @@ export class ServicioHospedajeComponent implements OnInit {
 
   getServicioHospedajePdfByFilters(): void {
 
-      switch (this.filtroActual) {
-        case 'FECHA':
-          const fechaSeleccionada = new Date(this.fechaInicio!);
-          this.servicioHospedajeService.exportPdfByFilters(undefined, undefined, fechaSeleccionada).subscribe(this.descargarPdf, this.handleError);
-          console.log('Exportando PDF por fecha Ok ', fechaSeleccionada);
-          break;
+    switch (this.filtroActual) {
+      case 'FECHA':
+        const fechaSeleccionada = new Date(this.fechaInicio!);
+        this.servicioHospedajeService.exportPdfByFilters(undefined, undefined, fechaSeleccionada).subscribe(this.descargarPdf, this.handleError);
+        console.log('Exportando PDF por fecha Ok ', fechaSeleccionada);
+        break;
 
-        case 'RANGO':
-          const desdeSeleccionada = new Date(this.desde!);
-          const hastaSeleccionada = new Date(this.hasta!);
-          this.servicioHospedajeService.exportPdfByFilters(undefined, undefined, undefined, desdeSeleccionada, hastaSeleccionada).subscribe(this.descargarPdf, this.handleError);
-          console.log('Exportando PDF por rango de fechas Ok ', desdeSeleccionada, hastaSeleccionada);
-          break;
+      case 'RANGO':
+        const desdeSeleccionada = new Date(this.desde!);
+        const hastaSeleccionada = new Date(this.hasta!);
+        this.servicioHospedajeService.exportPdfByFilters(undefined, undefined, undefined, desdeSeleccionada, hastaSeleccionada).subscribe(this.descargarPdf, this.handleError);
+        console.log('Exportando PDF por rango de fechas Ok ', desdeSeleccionada, hastaSeleccionada);
+        break;
 
-        case 'METODO_Y_FECHAS':
-          const desdeSeleccionada2 = new Date(this.desdeMetodo!);
-          const hastaSeleccionada2 = new Date(this.hastaMetodo!);
-          this.servicioHospedajeService.exportPdfByFilters(undefined, this.metodoPagoSeleccionado, undefined, desdeSeleccionada2, hastaSeleccionada2).subscribe(this.descargarPdf, this.handleError);
-          console.log('Exportando PDF por método de pago y rango de fechas Ok ', this.metodoPagoSeleccionado, desdeSeleccionada2, hastaSeleccionada2);
-          break;
+      case 'METODO_Y_FECHAS':
+        const desdeSeleccionada2 = new Date(this.desdeMetodo!);
+        const hastaSeleccionada2 = new Date(this.hastaMetodo!);
+        this.servicioHospedajeService.exportPdfByFilters(undefined, this.metodoPagoSeleccionado, undefined, desdeSeleccionada2, hastaSeleccionada2).subscribe(this.descargarPdf, this.handleError);
+        console.log('Exportando PDF por método de pago y rango de fechas Ok ', this.metodoPagoSeleccionado, desdeSeleccionada2, hastaSeleccionada2);
+        break;
 
-        case 'DNI':
-          this.servicioHospedajeService.exportPdfByFilters(this.dniSeleccionado).subscribe(this.descargarPdf, this.handleError);
-          console.log('Exportando PDF por DNI Ok ', this.dniSeleccionado);
-          break;
+      case 'DNI':
+        this.servicioHospedajeService.exportPdfByFilters(this.dniSeleccionado).subscribe(this.descargarPdf, this.handleError);
+        console.log('Exportando PDF por DNI Ok ', this.dniSeleccionado);
+        break;
 
-        default:
-          Swal.fire({
-            icon: 'warning',
-            title: 'Filtros no seleccionados',
-            text: 'Por favor, aplique un filtro antes de generar el reporte.',
-            confirmButtonText: 'Aceptar'
-          });
-      }
+      default:
+        Swal.fire({
+          icon: 'warning',
+          title: 'Filtros no seleccionados',
+          text: 'Por favor, aplique un filtro antes de generar el reporte.',
+          confirmButtonText: 'Aceptar'
+        });
+    }
   }
 
-      descargarPdf = (response: Blob) => {
+  descargarPdf = (response: Blob) => {
+    const blob = new Blob([response], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    window.open(url); // Abre el PDF en una nueva pestaña
+    setTimeout(() => window.URL.revokeObjectURL(url), 5000);
+  };
+
+  handleError = (error: any) => {
+    console.error('Error al exportar PDF:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo generar el reporte.',
+      confirmButtonText: 'Aceptar'
+    });
+  };
+
+  exportPdfById(id: number): void {
+    this.servicioHospedajeService.exportPdfById(id).subscribe(
+      (response: Blob) => {
         const blob = new Blob([response], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
         window.open(url); // Abre el PDF en una nueva pestaña
         setTimeout(() => window.URL.revokeObjectURL(url), 5000);
-      };
-
-      handleError = (error: any) => {
-        console.error('Error al exportar PDF:', error);
+      },
+      (error) => {
+        console.error('Error al exportar PDF por ID:', error);
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'No se pudo generar el reporte.',
+          text: 'No se pudo generar el reporte por ID.',
           confirmButtonText: 'Aceptar'
         });
-      };
-
+      }
+    );
+  }
 
   //Esto es para limpiar los filtros
   cleanFilters(): void {
