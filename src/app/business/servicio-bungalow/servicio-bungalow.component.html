@@ -44,7 +44,7 @@
             <th>Bungalow</th>
             <th>Precio</th>
             <th>Monto Total</th>
-            <th>Método Pago</th>
+            <th>Método de Pago</th>
             <th>Fecha Inicio</th>
             <th>Fecha Fin</th>
             <th>Cliente</th>
@@ -67,6 +67,9 @@
             <td class="button-acciones">
               <button class="edit">
                 <i id="pencil" class="fa-solid fa-pencil"></i>
+              </button>
+              <button (click)="exportPdfById(servicio.id)"  class="print">
+                <i class="fa-solid fa-print"></i>
               </button>
             </td>
           </tr>
@@ -104,9 +107,11 @@
 </div>
 
 <!--Seccion Modal
-<div *ngIf="isModalAddBungalowVisible == true">
-  <app-bungalow-add-modal></app-bungalow-add-modal>
+<div *ngIf="isModalViewServicioBungalowVisible && servicioBungalowSelect">
+  <app-servicio-bungalow-view [servicioBungalow]="servicioBungalowSelect!"></app-servicio-bungalow-view>
 </div>
+-->
+<!--
 <div *ngIf="isModalUpdateBungalowVisible && bungalowSelect">
   <app-bungalow-update-modal [bungalow]="bungalowSelect!"></app-bungalow-update-modal>
 </div>

@@ -25,6 +25,10 @@ export class ServicioBungalowService {
     return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/pagination', { params });
   }
 
+  getServicioBungalowById(id: number): Observable<any>{
+    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/id/' + id);
+  }
+
   getServicioBungalowByFechaPagination(page: number, size: number, fechaInicio: Date): Observable<any>{
     const params = new HttpParams().set('page', page.toString())
                                    .set('size', size.toString())

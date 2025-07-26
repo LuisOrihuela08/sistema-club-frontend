@@ -175,7 +175,59 @@ export class ServicioHospedajeComponent implements OnInit {
 
   getServicioHospedajePdfByFilters(): void {
 
+      switch (this.filtroActual) {
+        case 'FECHA':
+          const fechaSeleccionada = new Date(this.fechaInicio!);
+          this.servicioHospedajeService.exportPdfByFilters(undefined, undefined, fechaSeleccionada).subscribe(this.descargarPdf, this.handleError);
+          console.log('Exportando PDF por fecha Ok ', fechaSeleccionada);
+          break;
+
+        case 'RANGO':
+          const desdeSeleccionada = new Date(this.desde!);
+          const hastaSeleccionada = new Date(this.hasta!);
+          this.servicioHospedajeService.exportPdfByFilters(undefined, undefined, undefined, desdeSeleccionada, hastaSeleccionada).subscribe(this.descargarPdf, this.handleError);
+          console.log('Exportando PDF por rango de fechas Ok ', desdeSeleccionada, hastaSeleccionada);
+          break;
+
+        case 'METODO_Y_FECHAS':
+          const desdeSeleccionada2 = new Date(this.desdeMetodo!);
+          const hastaSeleccionada2 = new Date(this.hastaMetodo!);
+          this.servicioHospedajeService.exportPdfByFilters(undefined, this.metodoPagoSeleccionado, undefined, desdeSeleccionada2, hastaSeleccionada2).subscribe(this.descargarPdf, this.handleError);
+          console.log('Exportando PDF por método de pago y rango de fechas Ok ', this.metodoPagoSeleccionado, desdeSeleccionada2, hastaSeleccionada2);
+          break;
+
+        case 'DNI':
+          this.servicioHospedajeService.exportPdfByFilters(this.dniSeleccionado).subscribe(this.descargarPdf, this.handleError);
+          console.log('Exportando PDF por DNI Ok ', this.dniSeleccionado);
+          break;
+
+        default:
+          Swal.fire({
+            icon: 'warning',
+            title: 'Filtros no seleccionados',
+            text: 'Por favor, aplique un filtro antes de generar el reporte.',
+            confirmButtonText: 'Aceptar'
+          });
+      }
   }
+
+      descargarPdf = (response: Blob) => {
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url); // Abre el PDF en una nueva pestaña
+        setTimeout(() => window.URL.revokeObjectURL(url), 5000);
+      };
+
+      handleError = (error: any) => {
+        console.error('Error al exportar PDF:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo generar el reporte.',
+          confirmButtonText: 'Aceptar'
+        });
+      };
+
 
   //Esto es para limpiar los filtros
   cleanFilters(): void {

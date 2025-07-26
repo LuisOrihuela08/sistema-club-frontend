@@ -4,6 +4,7 @@ import { ClienteBungalow } from '../../shared/models/ClienteBugalow';
 import { ServicioBungalowService } from '../../shared/services/servicio-bungalow.service';
 import Swal from 'sweetalert2';
 import { FormsModule, NonNullableFormBuilder } from '@angular/forms';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-servicio-bungalow',
@@ -30,11 +31,24 @@ export class ServicioBungalowComponent implements OnInit {
   pageSize: number = 14; // Número de elementos por página
   totalPages: number = 1; // Se actualizará según la respuesta del backend
 
-  constructor(private servicioBungalowService: ServicioBungalowService) { }
+  //Sección para los modales
+  isModalViewServicioBungalowVisible: boolean = false; // Para mostrar/ocultar el modal de vista de servicio de bungalow
+  servicioBungalowSelect: ClienteBungalow | null = null; // Para almacenar el servicio de bungalow seleccionado
+
+  constructor(private servicioBungalowService: ServicioBungalowService,
+              private modalService: ModalService
+  ) { }
 
 
   ngOnInit(): void {
     this.getServicioBungalowByPagination();
+    this.modalService.$modalViewServicioBungalow.subscribe((valor) => {this.isModalViewServicioBungalowVisible = valor});
+  }
+
+  //Para abrir el modal de vista de servicio de bungalow
+  openModalViewServicioBundalow(servicioBungalow: ClienteBungalow): void {
+    this.servicioBungalowSelect = servicioBungalow;
+    this.modalService.$modalViewServicioBungalow.emit(true);
   }
 
   getServicioBungalowByPagination(): void {
@@ -62,6 +76,18 @@ export class ServicioBungalowComponent implements OnInit {
       this.currentPage--;
       this.getServicioBungalowByPagination();
     }
+  }
+
+  getServicioBungalowById(id: number): void {
+    this.servicioBungalowService.getServicioBungalowById(id).subscribe(
+      (data: any) => {
+        this.servicioBungalowSelect = data;
+        this.openModalViewServicioBundalow(this.servicioBungalowSelect!);
+      },
+      (error) => {
+        console.error('Error al obtener el servicio de bungalow por ID: ', error);
+      }
+    );
   }
 
   //Filtro por fecha de inicio
@@ -230,6 +256,26 @@ export class ServicioBungalowComponent implements OnInit {
         confirmButtonText: 'Aceptar'
       });
     };
+
+    exportPdfById(id: number): void {
+    this.servicioBungalowService.exportPdfById(id).subscribe(
+      (response: Blob) => {
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url); // Abre el PDF en una nueva pestaña
+        setTimeout(() => window.URL.revokeObjectURL(url), 5000);
+      },
+      (error) => {
+        console.error('Error al exportar PDF por ID:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo generar el reporte por ID.',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    );
+    }
 
 
   //Esto es para limpiar los filtros
