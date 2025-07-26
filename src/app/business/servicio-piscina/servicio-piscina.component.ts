@@ -232,6 +232,26 @@ export class ServicioPiscinaComponent implements OnInit {
     });
   };
 
+  exportPdfById(id: number): void {
+    this.servicioPiscinaService.exportServicioPiscinaPdfById(id).subscribe(
+      (response: Blob) => {
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url); // Abre el PDF en una nueva pestaña
+        setTimeout(() => window.URL.revokeObjectURL(url), 5000);
+      },
+      (error) => {
+        console.error('Error al exportar PDF por ID:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo generar el reporte por ID.',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    );
+  }
+
 
 
   //Esto es para limpiar los filtros
