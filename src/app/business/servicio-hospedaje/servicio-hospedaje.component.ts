@@ -62,11 +62,6 @@ export class ServicioHospedajeComponent implements OnInit {
     }
   }
 
-    //Esto es para limpiar los filtros
-  cleanFilters(): void {
-    this.getServicioHospedajeByPagination();
-  }
-
   getServicioHospedajeByFecha(): void {
     if (!this.fechaInicio) {
       console.warn('Fecha de inicio no puede ser nula');
@@ -97,19 +92,100 @@ export class ServicioHospedajeComponent implements OnInit {
   }
 
   getServicioHospedajeByFechaBetween(): void {
+    if (!this.desde || !this.hasta) {
+      console.warn('Ambas fechas deben ser seleccionadas para filtrar');
+      this.getServicioHospedajeByPagination();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Fechas no seleccionada',
+        text: 'Por favor, seleccione ambas fechas para realizar la búsqueda.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
 
+    const desdeSeleccionada = new Date(this.desde);
+    const hastaSeleccionada = new Date(this.hasta);
+
+    this.servicioHospedajeService.getServicioHospedajeByFechaBetween(this.currentPage, this.pageSize, desdeSeleccionada, hastaSeleccionada).subscribe(
+      (data: any) => {
+        this.filtroActual = 'RANGO';
+        this.serviciosHospedaje = data.content;
+        this.totalPages = data.totalPages;
+        console.log('Servicios de hospedaje obtenidos entre fechas: ', this.serviciosHospedaje);
+      },
+      (error) => {
+        console.error('Error al obtener los servicios de hospedaje entre fechas: ', error);
+        this.serviciosHospedaje = [];
+        this.totalPages = 0;
+      }
+    );
   }
 
   getServicioHospedajeByMetodoPagoAndFechaBetween(): void {
+   if (!this.desdeMetodo || !this.hastaMetodo || !this.metodoPagoSeleccionado) {
+      console.warn('No se han seleccionado todos los filtros necesarios');
+      this.getServicioHospedajeByPagination();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Filtros incompletos',
+        text: 'Por favor, seleccione un método de pago y ambas fechas para realizar la búsqueda.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+    const desdeSeleccionada = new Date(this.desdeMetodo);
+    const hastaSeleccionada = new Date(this.hastaMetodo);
 
+    this.servicioHospedajeService.getServicioHospedajeByMetodoPagoAndFechaBetween(this.currentPage, this.pageSize, this.metodoPagoSeleccionado, desdeSeleccionada, hastaSeleccionada).subscribe(
+      (data: any) => {
+        this.filtroActual = 'METODO_Y_FECHAS';
+        this.serviciosHospedaje = data.content;
+        this.totalPages = data.totalPages;
+        console.log('Servicios de hospedaje obtenidos por método de pago y fechas: ', this.serviciosHospedaje);
+      },
+      (error) => {
+        console.error('Error al obtener los servicios de hospedaje por método de pago y fechas: ', error);
+        this.serviciosHospedaje = [];
+        this.totalPages = 0;
+      }
+    );
   }
 
   getServicioHospedajeByClienteDni(): void {
-
+   if (!this.dniSeleccionado) {
+      console.warn('No se ha ingresado un DNI');
+      this.getServicioHospedajeByPagination();
+      return;
+    }
+    this.servicioHospedajeService.getServicioHospedajeByClienteDni(this.currentPage, this.pageSize, this.dniSeleccionado).subscribe(
+      (data: any) => {
+        this.filtroActual = 'DNI';
+        this.serviciosHospedaje = data.content;
+        this.totalPages = data.totalPages;
+        console.log('Servicios de hospedaje filtrados por DNI: ', this.serviciosHospedaje);
+      },
+      (error) => {
+        console.error('Error al obtener los servicios de hospedaje filtrados por DNI: ', error);
+        this.serviciosHospedaje = [];
+        this.totalPages = 0;
+      }
+    );
   }
 
   getServicioHospedajePdfByFilters(): void {
 
   }
 
+  //Esto es para limpiar los filtros
+  cleanFilters(): void {
+    this.fechaInicio = null;
+    this.desde = null;
+    this.hasta = null;
+    this.desdeMetodo = null;
+    this.hastaMetodo = null;
+    this.metodoPagoSeleccionado = '';
+    this.dniSeleccionado = '';
+    this.getServicioHospedajeByPagination();
+  }
 }
