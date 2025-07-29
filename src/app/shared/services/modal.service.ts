@@ -8,15 +8,15 @@ export class ModalService {
   constructor() { }
 
   //Esto es para el servicio de hospedaje
-  $modalViewServicioHospedaje = new EventEmitter<any>();
+  $modalAddServicioHospedaje = new EventEmitter<any>();
   $modalEditServicioHospedaje  = new EventEmitter<any>();
 
   //Esto es para el servicio de bungalow
-  $modalViewServicioBungalow = new EventEmitter<any>();
+  $modalAddServicioBungalow = new EventEmitter<any>();
   $modalEditServicioBungalow  = new EventEmitter<any>();
 
   //Esto es para el servicio de piscina
-  $modalViewServicioPiscina = new EventEmitter<any>();
+  $modalAddServicioPiscina = new EventEmitter<any>();
   $modalEditServicioPiscina  = new EventEmitter<any>();
 
   //Esto es para método de pago

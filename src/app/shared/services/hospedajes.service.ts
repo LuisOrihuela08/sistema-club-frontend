@@ -19,6 +19,10 @@ export class HospedajesService {
     this.hospedajeUpdateSource.next();
   }
 
+  getHospedajes(): Observable<any>{
+    return this.http.get('http://localhost:8080/api/v1/hospedaje/');
+  }
+
   getHospedajeByPagination(page: number, size: number){
     const params = new HttpParams().set('page', page.toString())
                                    .set('size', size.toString());

@@ -32,7 +32,7 @@ export class ServicioBungalowComponent implements OnInit {
   totalPages: number = 1; // Se actualizará según la respuesta del backend
 
   //Sección para los modales
-  isModalViewServicioBungalowVisible: boolean = false; // Para mostrar/ocultar el modal de vista de servicio de bungalow
+  isModalAddServicioBungalowVisible: boolean = false; // Para mostrar/ocultar el modal de vista de servicio de bungalow
   servicioBungalowSelect: ClienteBungalow | null = null; // Para almacenar el servicio de bungalow seleccionado
 
   constructor(private servicioBungalowService: ServicioBungalowService,
@@ -42,13 +42,13 @@ export class ServicioBungalowComponent implements OnInit {
 
   ngOnInit(): void {
     this.getServicioBungalowByPagination();
-    this.modalService.$modalViewServicioBungalow.subscribe((valor) => {this.isModalViewServicioBungalowVisible = valor});
+    this.modalService.$modalAddServicioBungalow.subscribe((valor) => {this.isModalAddServicioBungalowVisible = valor});
   }
 
   //Para abrir el modal de vista de servicio de bungalow
   openModalViewServicioBundalow(servicioBungalow: ClienteBungalow): void {
     this.servicioBungalowSelect = servicioBungalow;
-    this.modalService.$modalViewServicioBungalow.emit(true);
+    this.modalService.$modalAddServicioBungalow.emit(true);
   }
 
   getServicioBungalowByPagination(): void {

@@ -1,0 +1,76 @@
+<div class="contenedor">
+  <div class="modal-content">
+    <div class="modal-content-header">
+      <div class="titulo-modal">
+        <h1>Completar todos los campos:</h1>
+      </div>
+      <div class="modal-boton">
+        <a>
+          <button (click)="closeModalAddServicioPiscina()"><i class="fa-solid fa-circle-xmark"></i></button>
+        </a>
+      </div>
+    </div>
+    <div class="modal-inputs">
+      <form [formGroup]="servicioPiscinaForm" (ngSubmit)="addServicioPiscina()">
+        <div class="inputs-compartidos-busqueda" formGroupName="cliente">
+          <div>
+            <label for="dni">Ingresar DNI: </label>
+            <input formControlName="dni" id="dni" name="dni" type="text" required>
+          </div>
+          <div class="boton-buscar">
+            <button type="button" (click)="findByDni()">🔍</button>
+          </div>
+        </div>
+        <div formGroupName="cliente" class="inputs-compartidos">
+          <div>
+            <label for="name">Nombres:</label>
+            <input formControlName="name" id="name" name="name" type="text" readonly>
+          </div>
+          <div>
+            <label for="lastName">Apellidos:</label>
+            <input formControlName="lastName" id="lastName" name="lastName" type="text" readonly>
+          </div>
+        </div>
+        <div formGroupName="cliente" class="inputs-compartidos">
+          <div>
+            <label for="district">Distrito:</label>
+            <input formControlName="district" id="district" name="district" type="text" readonly>
+          </div>
+          <div>
+            <label for="telephone">Teléfono:</label>
+            <input formControlName="telephone" id="telephone" name="telephone" type="text" required>
+          </div>
+        </div>
+        <div class="inputs-compartidos">
+          <div>
+            <label for="precioUnitario">Precio Unitario:</label>
+            <input formControlName="precioUnitario" id="precioUnitario" name="precioUnitario" type="number" required>
+          </div>
+          <div>
+            <label for="cantidadPersonas">Cantidad de Personas:</label>
+            <input formControlName="cantidadPersonas" id="cantidadPersonas" name="cantidadPersonas" type="number"
+              required>
+          </div>
+        </div>
+        <div class="inputs-compartidos">
+          <div>
+            <label for="montoTotal">Monto Total:</label>
+            <input formControlName="montoTotal" id="montoTotal" name="montoTotal" type="number" readonly>
+          </div>
+          <div formGroupName="metodoPago">
+            <label for="metodoPago">Método de Pago:</label>
+            <select id="metodoPago" formControlName="id" required>
+              <option value="" disabled selected>Seleccione un método de pago</option>
+              <option *ngFor="let metodo of metodosPago" [value]="metodo.id">
+                {{ metodo.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="boton-agregar">
+          <button type="submit">Agregar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="agregar">
-        <button><i class="fa-solid fa-plus"></i> Agregar Servicio</button>
+        <button (click)="openModalAddServicioPiscina()"><i class="fa-solid fa-plus"></i> Agregar Servicio</button>
       </div>
     </div>
     <div class="tabla-content">
@@ -107,10 +107,11 @@
   </div>
 </div>
 
-<!--Seccion Modal
-<div *ngIf="isModalAddBungalowVisible == true">
-  <app-bungalow-add-modal></app-bungalow-add-modal>
+<!--Seccion Modal-->
+<div *ngIf="isModalAddServicioPiscinaVisible == true">
+  <app-servicio-piscina-add-modal></app-servicio-piscina-add-modal>
 </div>
+<!--
 <div *ngIf="isModalUpdateBungalowVisible && bungalowSelect">
   <app-bungalow-update-modal [bungalow]="bungalowSelect!"></app-bungalow-update-modal>
 </div>

@@ -4,11 +4,14 @@ import { ClientePiscina } from '../../shared/models/ClientePiscina';
 import { ServicioPiscinaService } from '../../shared/services/servicio-piscina.service';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ModalService } from '../../shared/services/modal.service';
+import { ServicioPiscinaAddModalComponent } from './servicio-piscina-add-modal/servicio-piscina-add-modal.component';
 
 @Component({
   selector: 'app-servicio-piscina',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ServicioPiscinaAddModalComponent],
   templateUrl: './servicio-piscina.component.html',
   styleUrl: './servicio-piscina.component.css'
 })
@@ -29,10 +32,31 @@ export class ServicioPiscinaComponent implements OnInit {
   pageSize: number = 14; // Número de elementos por página
   totalPages: number = 1; // Se actualizará según la respuesta del backend
 
-  constructor(private servicioPiscinaService: ServicioPiscinaService) { }
+  //Seccion de modal para actualizar servicio de piscina
+  isModalAddServicioPiscinaVisible: boolean = false;
+  isModalUpdateServicioPiscinaVisible: boolean = false;
+  servicioPiscinaSelect: ClientePiscina | null = null;
+
+  //Sección para subscripción y actualización de servicios de piscina
+  private servicioPiscinaSubscribe: Subscription = undefined!;
+
+  constructor(private servicioPiscinaService: ServicioPiscinaService,
+    private modalService: ModalService
+  ) { }
 
   ngOnInit(): void {
     this.getServicioPiscinaByPagination();
+    this.modalService.$modalAddServicioPiscina.subscribe((valor) => { this.isModalAddServicioPiscinaVisible = valor });
+    this.servicioPiscinaSubscribe = this.servicioPiscinaService.servicioPiscinaUpdate$.subscribe(
+      () => {
+        this.getServicioPiscinaByPagination();
+        console.log('Servicios de piscina actualizados en tiempo real');
+      }
+    )
+  }
+
+  openModalAddServicioPiscina(): void {
+    this.modalService.$modalAddServicioPiscina.emit(true);
   }
 
   getServicioPiscinaByPagination(): void {
