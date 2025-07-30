@@ -7,11 +7,12 @@ import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { ModalService } from '../../shared/services/modal.service';
 import { ServicioHospedajeAddModalComponent } from './servicio-hospedaje-add-modal/servicio-hospedaje-add-modal.component';
+import { ServicioHospedajeUpdateModalComponent } from './servicio-hospedaje-update-modal/servicio-hospedaje-update-modal.component';
 
 @Component({
   selector: 'app-servicio-hospedaje',
   standalone: true,
-  imports: [CommonModule, FormsModule, ServicioHospedajeAddModalComponent],
+  imports: [CommonModule, FormsModule, ServicioHospedajeAddModalComponent, ServicioHospedajeUpdateModalComponent],
   templateUrl: './servicio-hospedaje.component.html',
   styleUrl: './servicio-hospedaje.component.css'
 })
@@ -47,6 +48,7 @@ export class ServicioHospedajeComponent implements OnInit {
   ngOnInit(): void {
     this.getServicioHospedajeByPagination();
     this.modalService.$modalAddServicioHospedaje.subscribe((valor) => {this.isModalAddServicioHospedajeVisible = valor});
+    this.modalService.$modalEditServicioHospedaje.subscribe((valor) => {this.isModalEditServicioHospedajeVisible = valor});
     this.servicioHospedajeSubscribe = this.servicioHospedajeService.servicioHospedajeUpdate$.subscribe(
       () => {
         this.getServicioHospedajeByPagination();
@@ -58,6 +60,11 @@ export class ServicioHospedajeComponent implements OnInit {
   //Para abrir el modal de agregar servicio de hospedaje
   openModalAddServicioHospedaje(): void {
     this.modalService.$modalAddServicioHospedaje.emit(true);
+  }
+
+  openModalEditServicioHospedaje(servicioHospedaje: ClienteHospedaje): void {
+    this.servicioHospedajeSelect = servicioHospedaje;
+    this.modalService.$modalEditServicioHospedaje.emit(true);
   }
 
 

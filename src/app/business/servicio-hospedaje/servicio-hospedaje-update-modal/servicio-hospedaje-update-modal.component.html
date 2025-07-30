@@ -1,1 +1,86 @@
-<p>servicio-hospedaje-update-modal works!</p>
+<div class="contenedor">
+  <div class="modal-content">
+    <div class="modal-content-header">
+      <div class="titulo-modal">
+        <h1>Completar todos los campos:</h1>
+      </div>
+      <div class="modal-boton">
+        <a>
+          <button (click)="closeModalUpdateServicioHospedaje()"><i class="fa-solid fa-circle-xmark"></i></button>
+        </a>
+      </div>
+    </div>
+    <div class="modal-inputs">
+      <form [formGroup]="servicioHospedajeForm" (ngSubmit)="updateServicioHospedaje()">
+        <div formGroupName="cliente" class="inputs-compartidos">
+          <div>
+            <label for="name">Nombres:</label>
+            <input formControlName="name" id="name" name="name" type="text" readonly>
+          </div>
+          <div>
+            <label for="lastName">Apellidos:</label>
+            <input formControlName="lastName" id="lastName" name="lastName" type="text" readonly>
+          </div>
+        </div>
+        <div formGroupName="cliente" class="inputs-compartidos">
+          <div>
+            <label for="district">Distrito:</label>
+            <input formControlName="district" id="district" name="district" type="text" readonly>
+          </div>
+          <div>
+            <label for="dni">DNI:</label>
+            <input formControlName="dni" id="dni" name="dni" type="text" readonly>
+          </div>
+        </div>
+        <div class="inputs-compartidos">
+          <div formGroupName="cliente">
+            <label for="telephone">Teléfono:</label>
+            <input formControlName="telephone" id="telephone" name="telephone" type="text" required>
+          </div>
+          <div formGroupName="hospedaje">
+            <label for="hospedaje">Habitación:</label>
+            <select id="hospedaje" formControlName="id" required>
+              <option value="" disabled selected>Seleccione una habitación</option>
+              <option *ngFor="let hospedaje of hospedajes" [value]="hospedaje.id">
+                {{ hospedaje.codigoHabitacion }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="inputs-compartidos">
+          <div>
+            <label for="fechaInicio">Fecha Inicio:</label>
+            <input formControlName="fechaInicio" id="fechaInicio" name="fechaInicio" type="date"
+              required>
+          </div>
+          <div>
+            <label for="fechaFin">Fecha Fin:</label>
+            <input formControlName="fechaFin" id="fechaFin" name="fechaFin" type="date"
+              required>
+          </div>
+        </div>
+        <div class="inputs-compartidos">
+          <div>
+            <label for="montoTotal">Monto Total:</label>
+            <input formControlName="montoTotal" id="montoTotal" name="montoTotal" type="number" required>
+          </div>
+          <div formGroupName="metodoPago">
+            <label for="metodoPago">Método de Pago:</label>
+            <select id="metodoPago" formControlName="id" required>
+              <option value="" disabled selected>Seleccione un método de pago</option>
+              <option *ngFor="let metodo of metodosPago" [value]="metodo.id">
+                {{ metodo.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="boton-agregar">
+          <button type="submit">Editar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+

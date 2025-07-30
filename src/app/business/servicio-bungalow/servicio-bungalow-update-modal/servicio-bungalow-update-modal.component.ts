@@ -95,6 +95,7 @@ export class ServicioBungalowUpdateModalComponent implements OnInit {
           text: 'El servicio de bungalow ha sido editado correctamente',
           confirmButtonText: 'Aceptar'
         });
+        this.servicioBungalowService.notifyServicioBungalowUpdate();
         this.closeModalUpdateServicioBungalow();
       },
       error: (error) =>{
