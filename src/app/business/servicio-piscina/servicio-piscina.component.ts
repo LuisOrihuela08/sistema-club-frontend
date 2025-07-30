@@ -3,15 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { ClientePiscina } from '../../shared/models/ClientePiscina';
 import { ServicioPiscinaService } from '../../shared/services/servicio-piscina.service';
 import Swal from 'sweetalert2';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ModalService } from '../../shared/services/modal.service';
 import { ServicioPiscinaAddModalComponent } from './servicio-piscina-add-modal/servicio-piscina-add-modal.component';
+import { ServicioPiscinaUpdateModalComponent } from './servicio-piscina-update-modal/servicio-piscina-update-modal.component';
 
 @Component({
   selector: 'app-servicio-piscina',
   standalone: true,
-  imports: [CommonModule, FormsModule, ServicioPiscinaAddModalComponent],
+  imports: [CommonModule, FormsModule, ServicioPiscinaAddModalComponent, ServicioPiscinaUpdateModalComponent],
   templateUrl: './servicio-piscina.component.html',
   styleUrl: './servicio-piscina.component.css'
 })
@@ -47,6 +48,7 @@ export class ServicioPiscinaComponent implements OnInit {
   ngOnInit(): void {
     this.getServicioPiscinaByPagination();
     this.modalService.$modalAddServicioPiscina.subscribe((valor) => { this.isModalAddServicioPiscinaVisible = valor });
+    this.modalService.$modalEditServicioPiscina.subscribe((valor) => {this.isModalUpdateServicioPiscinaVisible = valor});
     this.servicioPiscinaSubscribe = this.servicioPiscinaService.servicioPiscinaUpdate$.subscribe(
       () => {
         this.getServicioPiscinaByPagination();
@@ -57,6 +59,12 @@ export class ServicioPiscinaComponent implements OnInit {
 
   openModalAddServicioPiscina(): void {
     this.modalService.$modalAddServicioPiscina.emit(true);
+  }
+
+  openModalUpdateServicioPiscina(servicioPiscina: ClientePiscina): void {
+    this.servicioPiscinaSelect = servicioPiscina;
+    this.modalService.$modalEditServicioPiscina.emit(true);
+    console.log('Modal para actualizar un servicio de piscina abierto', this.isModalUpdateServicioPiscinaVisible);
   }
 
   getServicioPiscinaByPagination(): void {
