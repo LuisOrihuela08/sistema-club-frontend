@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ClienteHospedaje } from '../models/ClienteHospedaje';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,14 @@ export class ServicioHospedajeService {
 
   notifyServicioHospedajeUpdate(){
     this.servicioHospedajeUpdateSource.next();
+  }
+
+  addServicioHospedaje(servicioHospedaje: ClienteHospedaje): Observable<any>{
+    return this.http.post('http://localhost:8080/api/v1/servicio-hospedaje/', servicioHospedaje);
+  }
+
+  updateServicioHospedaje(id: number, servicioHospedaje: ClienteHospedaje): Observable<any>{
+    return this.http.put('http://localhost:8080/api/v1/servicio-hospedaje/id/' + id, servicioHospedaje);
   }
 
   getServicioHospedajeByPagination(page: number, size: number){

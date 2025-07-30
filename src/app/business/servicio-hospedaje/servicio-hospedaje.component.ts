@@ -4,12 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { ClienteHospedaje } from '../../shared/models/ClienteHospedaje';
 import { ServicioHospedajeService } from '../../shared/services/servicio-hospedaje.service';
 import Swal from 'sweetalert2';
-import { error } from 'console';
+import { Subscription } from 'rxjs';
+import { ModalService } from '../../shared/services/modal.service';
+import { ServicioHospedajeAddModalComponent } from './servicio-hospedaje-add-modal/servicio-hospedaje-add-modal.component';
 
 @Component({
   selector: 'app-servicio-hospedaje',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ServicioHospedajeAddModalComponent],
   templateUrl: './servicio-hospedaje.component.html',
   styleUrl: './servicio-hospedaje.component.css'
 })
@@ -30,11 +32,34 @@ export class ServicioHospedajeComponent implements OnInit {
   pageSize: number = 14; // Número de elementos por página
   totalPages: number = 1; // Se actualizará según la respuesta del backend
 
-  constructor(private servicioHospedajeService: ServicioHospedajeService) { }
+  //Seccion para los modales
+  isModalAddServicioHospedajeVisible: boolean = false;
+  isModalEditServicioHospedajeVisible: boolean = false;
+  servicioHospedajeSelect: ClienteHospedaje | null = null;
+
+  //Para la subscripcion
+  private servicioHospedajeSubscribe: Subscription = undefined!;
+
+  constructor(private servicioHospedajeService: ServicioHospedajeService,
+              private modalService: ModalService
+  ) { }
 
   ngOnInit(): void {
     this.getServicioHospedajeByPagination();
+    this.modalService.$modalAddServicioHospedaje.subscribe((valor) => {this.isModalAddServicioHospedajeVisible = valor});
+    this.servicioHospedajeSubscribe = this.servicioHospedajeService.servicioHospedajeUpdate$.subscribe(
+      () => {
+        this.getServicioHospedajeByPagination();
+        console.log('Servicio de hospedaje actualizado');
+      }
+    )
   }
+
+  //Para abrir el modal de agregar servicio de hospedaje
+  openModalAddServicioHospedaje(): void {
+    this.modalService.$modalAddServicioHospedaje.emit(true);
+  }
+
 
   getServicioHospedajeByPagination(): void {
     this.servicioHospedajeService.getServicioHospedajeByPagination(this.currentPage, this.pageSize).subscribe(

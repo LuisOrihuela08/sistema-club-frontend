@@ -7,7 +7,6 @@ import { FormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { ModalService } from '../../shared/services/modal.service';
 import { ServicioBungalowAddModalComponent } from './servicio-bungalow-add-modal/servicio-bungalow-add-modal.component';
 import { Subscription } from 'rxjs';
-import { Cliente } from '../../shared/models/Cliente';
 import { ServicioBungalowUpdateModalComponent } from './servicio-bungalow-update-modal/servicio-bungalow-update-modal.component';
 
 @Component({
