@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ClienteBungalow } from '../models/ClienteBugalow';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,14 @@ export class ServicioBungalowService {
   //Para notificar que se actualice la lista de servicios de bungalow
   notifyServicioBungalowUpdate(){
     this.servicioBungalowUpdateSource.next();
+  }
+
+  addServicioBungalow(servicioBungalow: ClienteBungalow): Observable<any>{
+    return this.http.post('http://localhost:8080/api/v1/servicio-bungalow/', servicioBungalow);
+  }
+
+  updateServicioBungalow(id: number, servicioBungalow: ClienteBungalow): Observable<any>{
+    return this.http.put('http://localhost:8080/api/v1/servicio-bungalow/id/' + id, servicioBungalow);
   }
 
   getServicioBungalowByPagination(page: number, size: number){

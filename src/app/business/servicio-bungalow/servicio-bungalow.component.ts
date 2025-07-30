@@ -5,11 +5,14 @@ import { ServicioBungalowService } from '../../shared/services/servicio-bungalow
 import Swal from 'sweetalert2';
 import { FormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { ModalService } from '../../shared/services/modal.service';
+import { ServicioBungalowAddModalComponent } from './servicio-bungalow-add-modal/servicio-bungalow-add-modal.component';
+import { Subscription } from 'rxjs';
+import { Cliente } from '../../shared/models/Cliente';
 
 @Component({
   selector: 'app-servicio-bungalow',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ServicioBungalowAddModalComponent],
   templateUrl: './servicio-bungalow.component.html',
   styleUrl: './servicio-bungalow.component.css'
 })
@@ -33,7 +36,11 @@ export class ServicioBungalowComponent implements OnInit {
 
   //Sección para los modales
   isModalAddServicioBungalowVisible: boolean = false; // Para mostrar/ocultar el modal de vista de servicio de bungalow
+  isModalEditServicioBungalowVisible: boolean = false;
   servicioBungalowSelect: ClienteBungalow | null = null; // Para almacenar el servicio de bungalow seleccionado
+
+  //Sección para subscripción y actualización de servicios de piscina
+    private servicioBungalowSubscribe: Subscription = undefined!;
 
   constructor(private servicioBungalowService: ServicioBungalowService,
               private modalService: ModalService
@@ -43,12 +50,25 @@ export class ServicioBungalowComponent implements OnInit {
   ngOnInit(): void {
     this.getServicioBungalowByPagination();
     this.modalService.$modalAddServicioBungalow.subscribe((valor) => {this.isModalAddServicioBungalowVisible = valor});
+    this.modalService.$modalEditServicioBungalow.subscribe((valor) => {this.isModalEditServicioBungalowVisible = valor});
+    this.servicioBungalowSubscribe = this.servicioBungalowService.servicioBungalowUpdate$.subscribe(
+      () => {
+        this.getServicioBungalowByPagination();
+        console.log('Lista de servicios de bungalow actualizada');
+      }
+    )
   }
 
-  //Para abrir el modal de vista de servicio de bungalow
-  openModalViewServicioBundalow(servicioBungalow: ClienteBungalow): void {
-    this.servicioBungalowSelect = servicioBungalow;
+  //Para abrir el modal de agregar servicio de bungalow
+  openModalAddServicioBungalow(): void {
     this.modalService.$modalAddServicioBungalow.emit(true);
+  }
+
+  //Para cerrar el modal de agregar servicio de bungalow
+  openModalEditServicioBungalow(servicioBungalow: ClienteBungalow): void {
+    this.servicioBungalowSelect = servicioBungalow;
+    this.modalService.$modalEditServicioBungalow.emit(true);
+    console.log('Servicio de bungalow seleccionado para edición: ', this.isModalEditServicioBungalowVisible);
   }
 
   getServicioBungalowByPagination(): void {
@@ -76,18 +96,6 @@ export class ServicioBungalowComponent implements OnInit {
       this.currentPage--;
       this.getServicioBungalowByPagination();
     }
-  }
-
-  getServicioBungalowById(id: number): void {
-    this.servicioBungalowService.getServicioBungalowById(id).subscribe(
-      (data: any) => {
-        this.servicioBungalowSelect = data;
-        this.openModalViewServicioBundalow(this.servicioBungalowSelect!);
-      },
-      (error) => {
-        console.error('Error al obtener el servicio de bungalow por ID: ', error);
-      }
-    );
   }
 
   //Filtro por fecha de inicio
