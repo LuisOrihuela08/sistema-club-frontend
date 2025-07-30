@@ -161,7 +161,7 @@ export class ServicioBungalowAddModalComponent implements OnInit {
 
     //Esto es para obtener los bungalows
     getBungalows(): void {
-      this.bungalowService.getBungalows().subscribe({
+      this.bungalowService.getBungalowDisponibles().subscribe({
         next: (data) =>{
           this.bungalows = data;
           console.log('Bungalows obtenidos: ', this.bungalows);

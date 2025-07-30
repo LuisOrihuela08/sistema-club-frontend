@@ -114,7 +114,7 @@ export class BungalowsComponent implements OnInit {
   //Método para ver la disponibilidad de los bungalows
   getBungalowByDisponibility(disponibles: boolean): void {
     this.disponibilidadSeleccionada = disponibles;
-    this.bungalowService.getBungalowDisponibles(this.currentPage, this.pageSize,disponibles).subscribe({
+    this.bungalowService.getBungalowDisponibilidad(this.currentPage, this.pageSize,disponibles).subscribe({
       next: (data) => {
         this.bungalows = data.content;
         this.totalPages = data.totalPages;

@@ -35,8 +35,13 @@ export class BungalowsService {
     return this.http.get('http://localhost:8080/api/v1/bungalow/codigo/' + codigo);
   }
 
-  //Método para ver los bungalows disponibles
-  getBungalowDisponibles(page: number, size: number, disponible: boolean): Observable<any>{
+  //Método para obtener bungalows disponibles
+  getBungalowDisponibles(): Observable<any>{
+    return this.http.get('http://localhost:8080/api/v1/bungalow/disponibles');
+  }
+
+  //Método para ver los bungalows disponibles y no disponbles
+  getBungalowDisponibilidad(page: number, size: number, disponible: boolean): Observable<any>{
     const params = new HttpParams().set('page', page.toString())
                                    .set('size', size.toString())
                                    .set('disponible', disponible.toString());

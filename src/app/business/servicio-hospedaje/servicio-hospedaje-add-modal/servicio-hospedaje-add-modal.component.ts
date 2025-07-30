@@ -156,7 +156,7 @@ export class ServicioHospedajeAddModalComponent implements OnInit {
   }
 
   getHospedajes(): void {
-    this.hospedajeService.getHospedajes().subscribe({
+    this.hospedajeService.getHospedajeDisponibles().subscribe({
       next: (data) => {
         this.hospedajes = data;
         console.log('Hospedajes obtenidos: ', this.hospedajes);
