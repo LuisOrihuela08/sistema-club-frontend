@@ -24,14 +24,14 @@ export class ServicioBungalowUpdateModalComponent implements OnInit {
   servicioBungalowForm!: FormGroup;
 
   metodosPago: MetodoPago[] = [];
-  bungalows: Bungalow[]=[];
+  bungalows: Bungalow[] = [];
 
   constructor(private servicioBungalowService: ServicioBungalowService,
-              private modalService: ModalService,
-              private fb: FormBuilder,
-              private metodoPagoService: MetodoPagoService,
-              private bungalowService: BungalowsService
-  ){}
+    private modalService: ModalService,
+    private fb: FormBuilder,
+    private metodoPagoService: MetodoPagoService,
+    private bungalowService: BungalowsService
+  ) { }
 
 
   ngOnInit(): void {
@@ -60,14 +60,27 @@ export class ServicioBungalowUpdateModalComponent implements OnInit {
     //Listar los bungalows
     this.getBungalows();
 
-      //Parar ver los valores agregados
+    //Parar ver los valores agregados
     console.log(this.servicioBungalowForm.value);
     this.servicioBungalowForm.valueChanges.subscribe((value) => {
       console.log('Valores agregados: ', value);
     });
+
+    //Para el calculo del monto total
+    this.servicioBungalowForm.get('fechaInicio')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
+
+    this.servicioBungalowForm.get('fechaFin')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
+
+    this.servicioBungalowForm.get('bungalow.id')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
   }
 
-  closeModalUpdateServicioBungalow(): void{
+  closeModalUpdateServicioBungalow(): void {
     this.modalService.$modalEditServicioBungalow.emit(false);
   }
 
@@ -86,7 +99,7 @@ export class ServicioBungalowUpdateModalComponent implements OnInit {
     const servicioBungalowUpdate: ClienteBungalow = this.servicioBungalowForm.value;
 
     this.servicioBungalowService.updateServicioBungalow(this.servicioBungalow.id, servicioBungalowUpdate).subscribe({
-      next: (response) =>{
+      next: (response) => {
         console.log('Servicio de bungalow actualizado: ', response);
         this.servicioBungalowService.notifyServicioBungalowUpdate();
         Swal.fire({
@@ -98,10 +111,10 @@ export class ServicioBungalowUpdateModalComponent implements OnInit {
         this.servicioBungalowService.notifyServicioBungalowUpdate();
         this.closeModalUpdateServicioBungalow();
       },
-      error: (error) =>{
+      error: (error) => {
         console.error('Error al actualizar el servicio de bungalow: ', error);
         Swal.fire({
-           icon: 'error',
+          icon: 'error',
           title: 'Error !',
           text: 'Error al editar el servicio de bungalow',
           confirmButtonText: 'Aceptar'
@@ -123,16 +136,55 @@ export class ServicioBungalowUpdateModalComponent implements OnInit {
     });
   }
 
-   //Esto es para obtener los bungalows
-    getBungalows(): void {
-      this.bungalowService.getBungalows().subscribe({
-        next: (data) =>{
-          this.bungalows = data;
-          console.log('Bungalows obtenidos: ', this.bungalows);
-        },
-        error: (err) =>{
-          console.error('Error al obtener los bungalows: ', err);
-        }
-      });
-    }
+  //Esto es para obtener los bungalows
+  getBungalows(): void {
+    this.bungalowService.getBungalows().subscribe({
+      next: (data) => {
+        this.bungalows = data;
+        console.log('Bungalows obtenidos: ', this.bungalows);
+      },
+      error: (err) => {
+        console.error('Error al obtener los bungalows: ', err);
+      }
+    });
+  }
+
+  //Calculo del monto total
+  calcularMontoTotal(): void {
+    const fechaInicioRaw = this.servicioBungalowForm.value.fechaInicio;
+  const fechaFinRaw = this.servicioBungalowForm.value.fechaFin;
+  const bungalowId = this.servicioBungalowForm.value.bungalow?.id;
+
+  if (!fechaInicioRaw || !fechaFinRaw || !bungalowId) {
+    this.servicioBungalowForm.get('montoTotal')?.setValue(0, { emitEvent: false });
+    return;
+  }
+
+  const inicio = new Date(fechaInicioRaw);
+  const fin = new Date(fechaFinRaw);
+
+  // Forzar ambas fechas a las 00:00:00
+  inicio.setHours(0, 0, 0, 0);
+  fin.setHours(0, 0, 0, 0);
+
+  // Calcular diferencia de días
+  const diffTime = fin.getTime() - inicio.getTime();
+  const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+  if (diffDays < 1) {
+    console.warn('Fechas inválidas. Monto total puesto en 0.');
+    this.servicioBungalowForm.get('montoTotal')?.setValue(0, { emitEvent: false });
+    return;
+  }
+
+  const bungalow = this.bungalows.find(b => b.id === +bungalowId);
+  if (!bungalow) return;
+
+  const monto = diffDays * bungalow.precio;
+  this.servicioBungalowForm.get('montoTotal')?.setValue(monto, { emitEvent: false });
+
+  console.log(`Días calculados: ${diffDays}`);
+  console.log(`Precio del bungalow: ${bungalow.precio}`);
+  console.log(`Monto total: ${monto}`);
+  }
 }

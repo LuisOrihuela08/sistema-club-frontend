@@ -60,6 +60,19 @@ export class ServicioHospedajeUpdateModalComponent implements OnInit{
     this.servicioHospedajeForm.valueChanges.subscribe((value) => {
       console.log('Formulario actualizado: ', value);
     });
+
+    //Para el calculo del monto total
+    this.servicioHospedajeForm.get('fechaInicio')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
+
+    this.servicioHospedajeForm.get('fechaFin')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
+
+    this.servicioHospedajeForm.get('hospedaje.id')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
   }
 
   closeModalUpdateServicioHospedaje(): void {
@@ -126,5 +139,44 @@ export class ServicioHospedajeUpdateModalComponent implements OnInit{
         console.error('Error al obtener los hospedajes: ', err);
       }
     });
+  }
+
+   //Calculo del monto total
+  calcularMontoTotal(): void {
+    const fechaInicioRaw = this.servicioHospedajeForm.value.fechaInicio;
+  const fechaFinRaw = this.servicioHospedajeForm.value.fechaFin;
+  const hospedajeId = this.servicioHospedajeForm.value.hospedaje?.id;
+
+  if (!fechaInicioRaw || !fechaFinRaw || !hospedajeId) {
+    this.servicioHospedajeForm.get('montoTotal')?.setValue(0, { emitEvent: false });
+    return;
+  }
+
+  const inicio = new Date(fechaInicioRaw);
+  const fin = new Date(fechaFinRaw);
+
+  // Forzar ambas fechas a las 00:00:00
+  inicio.setHours(0, 0, 0, 0);
+  fin.setHours(0, 0, 0, 0);
+
+  // Calcular diferencia de días
+  const diffTime = fin.getTime() - inicio.getTime();
+  const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+  if (diffDays < 1) {
+    console.warn('Fechas inválidas. Monto total puesto en 0.');
+    this.servicioHospedajeForm.get('montoTotal')?.setValue(0, { emitEvent: false });
+    return;
+  }
+
+  const hospedaje = this.hospedajes.find(h => h.id === +hospedajeId);
+  if (!hospedaje) return;
+
+  const monto = diffDays * hospedaje.precio;
+  this.servicioHospedajeForm.get('montoTotal')?.setValue(monto, { emitEvent: false });
+
+  console.log(`Días calculados: ${diffDays}`);
+  console.log(`Precio del hospedaje: ${hospedaje.precio}`);
+  console.log(`Monto total: ${monto}`);
   }
 }
