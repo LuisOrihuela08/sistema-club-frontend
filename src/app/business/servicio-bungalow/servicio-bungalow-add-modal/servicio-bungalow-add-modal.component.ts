@@ -36,7 +36,7 @@ export class ServicioBungalowAddModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.servicioBungalowForm = this.fb.group({
-      montoTotal: ['', Validators.required],
+      montoTotal: [0, Validators.required],
       fechaInicio: ['', Validators.required],
       fechaFin: ['', Validators.required],
       cliente: this.fb.group({

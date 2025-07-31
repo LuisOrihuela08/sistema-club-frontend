@@ -38,7 +38,7 @@ export class ServicioHospedajeAddModalComponent implements OnInit {
     this.servicioHospedajeForm = this.fb.group({
       fechaInicio: ['', Validators.required],
       fechaFin: ['', Validators.required],
-      montoTotal: ['', Validators.required],
+      montoTotal: [0, Validators.required],
       cliente: this.fb.group({
         name: ['', Validators.required],
         lastName: ['', Validators.required],
@@ -61,6 +61,17 @@ export class ServicioHospedajeAddModalComponent implements OnInit {
     console.log(this.servicioHospedajeForm.value);
     this.servicioHospedajeForm.valueChanges.subscribe((value) => {
       console.log('Formulario actualizado: ', value);
+    });
+
+    //Para realizar el calculo del monto total
+    this.servicioHospedajeForm.get('fechaInicio')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
+    this.servicioHospedajeForm.get('fechaFin')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
+    this.servicioHospedajeForm.get('hospedaje.id')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
     });
   }
 
@@ -165,5 +176,35 @@ export class ServicioHospedajeAddModalComponent implements OnInit {
         console.error('Error al obtener los hospedajes: ', err);
       }
     });
+  }
+
+  //Calculo del monto total
+  calcularMontoTotal(): void {
+    const hospedajeId = this.servicioHospedajeForm.get('hospedaje.id')?.value;
+    const fechaInicio = this.servicioHospedajeForm.get('fechaInicio')?.value;
+    const fechaFin = this.servicioHospedajeForm.get('fechaFin')?.value;
+
+    if (!hospedajeId || !fechaInicio || !fechaFin) {
+      this.servicioHospedajeForm.get('montoTotal')?.setValue(0);
+      return;
+    }
+    const hospedaje = this.hospedajes.find(h => h.id === +hospedajeId);
+    if (!hospedaje) {
+      return;
+    }
+
+    const inicio = new Date(fechaInicio);
+    const fin = new Date(fechaFin);
+
+    const diffTime = fin.getTime() - inicio.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 0) {
+      this.servicioHospedajeForm.get('montoTotal')?.setValue(0);
+      return;
+    }
+    const monto = diffDays * hospedaje.precio;
+    this.servicioHospedajeForm.get('montoTotal')?.setValue(monto, { emitEvent: false });
+    console.log('Monto total calculado: ', monto);
   }
 }
