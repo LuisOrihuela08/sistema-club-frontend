@@ -35,11 +35,6 @@ export const routes: Routes = [
         loadComponent: () => import('./business/servicio-hospedaje/servicio-hospedaje.component').then(m => m.ServicioHospedajeComponent)
       },
       {
-        path:'servicio-piscina',
-        redirectTo: 'servicio-piscina',
-        pathMatch: 'full'
-      },
-      {
         path: '**',
         redirectTo: 'servicio-piscina'
       }
