@@ -65,6 +65,18 @@ export class ServicioBungalowAddModalComponent implements OnInit {
     this.servicioBungalowForm.valueChanges.subscribe((value) => {
       console.log('Valores agregados: ', value);
     });
+
+    //Esto es para realizar el cálculo del monto total
+    //Para ello solo selecciono lo que utlizare para hacer el calculo y no todas las variables
+    this.servicioBungalowForm.get('fechaInicio')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
+    this.servicioBungalowForm.get('fechaFin')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
+    this.servicioBungalowForm.get('bungalow.id')?.valueChanges.subscribe(() => {
+      this.calcularMontoTotal();
+    });
   }
 
   closeModalAddServicioBungalow() {
@@ -170,6 +182,36 @@ export class ServicioBungalowAddModalComponent implements OnInit {
           console.error('Error al obtener los bungalows: ', err);
         }
       });
+    }
+
+    //Calculo del monto total
+    calcularMontoTotal(): void {
+      const bungalowId = this.servicioBungalowForm.get('bungalow.id')?.value;
+      const fechaInicio = this.servicioBungalowForm.get('fechaInicio')?.value;
+      const fechaFin = this.servicioBungalowForm.get('fechaFin')?.value;
+
+      if (!bungalowId || !fechaInicio || !fechaFin) {
+        this.servicioBungalowForm.get('montoTotal')?.setValue(0);
+        return;
+      }
+
+      const bungalow = this.bungalows.find(b =>b.id === +bungalowId);
+      if (!bungalow) {
+        return;
+      }
+      const inicio = new Date(fechaInicio);
+      const fin = new Date(fechaFin);
+
+      const diffTime = fin.getTime() - inicio.getTime();
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 0) {
+        this.servicioBungalowForm.get('montoTotal')?.setValue(0);
+        return;
+      }
+      const monto = diffDays * bungalow.precio;
+      this.servicioBungalowForm.get('montoTotal')?.setValue(monto, {emitEvent: false});
+      console.log('Monto total calculado: ', monto);
     }
 
   }
