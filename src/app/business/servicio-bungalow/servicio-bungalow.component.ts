@@ -8,11 +8,12 @@ import { ModalService } from '../../shared/services/modal.service';
 import { ServicioBungalowAddModalComponent } from './servicio-bungalow-add-modal/servicio-bungalow-add-modal.component';
 import { Subscription } from 'rxjs';
 import { ServicioBungalowUpdateModalComponent } from './servicio-bungalow-update-modal/servicio-bungalow-update-modal.component';
+import { ServicioBungalowViewComponent } from './servicio-bungalow-view/servicio-bungalow-view.component';
 
 @Component({
   selector: 'app-servicio-bungalow',
   standalone: true,
-  imports: [CommonModule, FormsModule, ServicioBungalowAddModalComponent, ServicioBungalowUpdateModalComponent],
+  imports: [CommonModule, FormsModule, ServicioBungalowAddModalComponent, ServicioBungalowUpdateModalComponent, ServicioBungalowViewComponent],
   templateUrl: './servicio-bungalow.component.html',
   styleUrl: './servicio-bungalow.component.css'
 })
@@ -37,6 +38,8 @@ export class ServicioBungalowComponent implements OnInit {
   //Sección para los modales
   isModalAddServicioBungalowVisible: boolean = false; // Para mostrar/ocultar el modal de vista de servicio de bungalow
   isModalEditServicioBungalowVisible: boolean = false;
+  isModalViewServicioBungalowVisible: boolean = false;//Para abrir el modal de detalle de servicio de bungalow
+  idViewServicioBungalow: number | null = null;// Para almacenar el ID del servicio de bungalow seleccionado para detalle
   servicioBungalowSelect: ClienteBungalow | null = null; // Para almacenar el servicio de bungalow seleccionado
 
   //Sección para subscripción y actualización de servicios de piscina
@@ -51,6 +54,7 @@ export class ServicioBungalowComponent implements OnInit {
     this.getServicioBungalowByPagination();
     this.modalService.$modalAddServicioBungalow.subscribe((valor) => {this.isModalAddServicioBungalowVisible = valor});
     this.modalService.$modalEditServicioBungalow.subscribe((valor) => {this.isModalEditServicioBungalowVisible = valor});
+    this.modalService.$modalViewServicioBungalow.subscribe((valor) => {this.isModalViewServicioBungalowVisible = valor});
     this.servicioBungalowSubscribe = this.servicioBungalowService.servicioBungalowUpdate$.subscribe(
       () => {
         this.getServicioBungalowByPagination();
@@ -69,6 +73,11 @@ export class ServicioBungalowComponent implements OnInit {
     this.servicioBungalowSelect = servicioBungalow;
     this.modalService.$modalEditServicioBungalow.emit(true);
     console.log('Servicio de bungalow seleccionado para edición: ', this.isModalEditServicioBungalowVisible);
+  }
+
+  openModalViewServicioBungalow(id: number): void {
+    this.idViewServicioBungalow = id;
+    this.isModalViewServicioBungalowVisible = true;
   }
 
   getServicioBungalowByPagination(): void {

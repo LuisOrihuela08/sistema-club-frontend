@@ -14,6 +14,7 @@ export class ModalService {
   //Esto es para el servicio de bungalow
   $modalAddServicioBungalow = new EventEmitter<any>();
   $modalEditServicioBungalow  = new EventEmitter<any>();
+  $modalViewServicioBungalow  = new EventEmitter<any>();
 
   //Esto es para el servicio de piscina
   $modalAddServicioPiscina = new EventEmitter<any>();

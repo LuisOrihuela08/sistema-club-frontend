@@ -65,6 +65,9 @@
             <td>{{servicio.cliente.dni}}</td>
             <td>{{servicio.cliente.telephone}}</td>
             <td class="button-acciones">
+              <button (click)="openModalViewServicioBungalow(servicio.id)" class="edit">
+                <i class="fa-solid fa-eye"></i>
+              </button>
               <button (click)="openModalEditServicioBungalow(servicio)" class="edit">
                 <i id="pencil" class="fa-solid fa-pencil"></i>
               </button>
@@ -111,8 +114,11 @@
   <app-servicio-bungalow-add-modal></app-servicio-bungalow-add-modal>
 </div>
 
-
 <div *ngIf="isModalEditServicioBungalowVisible && servicioBungalowSelect">
   <app-servicio-bungalow-update-modal [servicioBungalow]="servicioBungalowSelect!"></app-servicio-bungalow-update-modal>
+</div>
+
+<div *ngIf="isModalViewServicioBungalowVisible && idViewServicioBungalow">
+  <app-servicio-bungalow-view [idServicioBungalow]="idViewServicioBungalow!"></app-servicio-bungalow-view>
 </div>
 

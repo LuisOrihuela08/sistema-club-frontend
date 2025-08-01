@@ -1,0 +1,44 @@
+<div class="contenedor">
+  <div class="modal-content">
+
+    <div class="modal-content-header">
+      <div class="titulo-modal">
+        <h1>Detalles del servicio:</h1>
+      </div>
+      <div class="modal-boton">
+        <a>
+          <button (click)="closeModalViewServicioBungalow()"><i class="fa-solid fa-circle-xmark"></i></button>
+        </a>
+      </div>
+    </div>
+    <div class="modal-content-body">
+      <div class="detalles">
+        <p><strong>Fecha de Registro:</strong> {{ detalle.fechaInicio }}</p>
+        <p><strong>Fecha de Salida:</strong> {{ detalle.fechaFin }}</p>
+        <p><strong>Monto Total:</strong> {{ detalle.montoTotal }}</p>
+        <p><strong>Método de Pago:</strong> {{ detalle.metodoPago.name }}</p>
+      </div>
+      <div class="detalles">
+        <div class="detalles-titulo">
+          <h2>Información del Cliente</h2>
+        </div>
+        <div class="detalles-body">
+          <p><strong>Cliente:</strong> {{ detalle.cliente.name }} {{ detalle.cliente.lastName }}</p>
+          <p><strong>DNI:</strong> {{ detalle.cliente.dni }}</p>
+          <p><strong>Teléfono:</strong> {{ detalle.cliente.telephone }}</p>
+          <p><strong>Distrito:</strong> {{ detalle.cliente.district }}</p>
+        </div>
+      </div>
+      <div class="detalles">
+        <div class="detalles-titulo">
+          <h2>Información del Bungalow</h2>
+        </div>
+        <div class="detalles-body">
+          <p><strong>Bungalow:</strong> {{ detalle.bungalow.codigo }} (Capacidad: {{ detalle.bungalow.capacidad }})</p>
+          <p><strong>Precio:</strong> {{ detalle.bungalow.precio }}</p>
+          <p><strong>Descripción:</strong> {{ detalle.bungalow.descripcion }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
