@@ -8,11 +8,12 @@ import { Subscription } from 'rxjs';
 import { ModalService } from '../../shared/services/modal.service';
 import { ServicioHospedajeAddModalComponent } from './servicio-hospedaje-add-modal/servicio-hospedaje-add-modal.component';
 import { ServicioHospedajeUpdateModalComponent } from './servicio-hospedaje-update-modal/servicio-hospedaje-update-modal.component';
+import { ServicioHospedajeViewModalComponent } from './servicio-hospedaje-view-modal/servicio-hospedaje-view-modal.component';
 
 @Component({
   selector: 'app-servicio-hospedaje',
   standalone: true,
-  imports: [CommonModule, FormsModule, ServicioHospedajeAddModalComponent, ServicioHospedajeUpdateModalComponent],
+  imports: [CommonModule, FormsModule, ServicioHospedajeAddModalComponent, ServicioHospedajeUpdateModalComponent, ServicioHospedajeViewModalComponent],
   templateUrl: './servicio-hospedaje.component.html',
   styleUrl: './servicio-hospedaje.component.css'
 })
@@ -36,6 +37,8 @@ export class ServicioHospedajeComponent implements OnInit {
   //Seccion para los modales
   isModalAddServicioHospedajeVisible: boolean = false;
   isModalEditServicioHospedajeVisible: boolean = false;
+  isModalViewServicioHospedajeVisible: boolean = false;
+  idViewServicioHospedaje: number | null = null; // Para almacenar el ID del servicio de hospedaje seleccionado
   servicioHospedajeSelect: ClienteHospedaje | null = null;
 
   //Para la subscripcion
@@ -49,6 +52,7 @@ export class ServicioHospedajeComponent implements OnInit {
     this.getServicioHospedajeByPagination();
     this.modalService.$modalAddServicioHospedaje.subscribe((valor) => {this.isModalAddServicioHospedajeVisible = valor});
     this.modalService.$modalEditServicioHospedaje.subscribe((valor) => {this.isModalEditServicioHospedajeVisible = valor});
+    this.modalService.$modalViewServicioHospedaje.subscribe((valor) => {this.isModalViewServicioHospedajeVisible = valor});
     this.servicioHospedajeSubscribe = this.servicioHospedajeService.servicioHospedajeUpdate$.subscribe(
       () => {
         this.getServicioHospedajeByPagination();
@@ -65,6 +69,11 @@ export class ServicioHospedajeComponent implements OnInit {
   openModalEditServicioHospedaje(servicioHospedaje: ClienteHospedaje): void {
     this.servicioHospedajeSelect = servicioHospedaje;
     this.modalService.$modalEditServicioHospedaje.emit(true);
+  }
+
+  openModalViewServicioHospedaje(id: number): void {
+    this.idViewServicioHospedaje = id;
+    this.isModalViewServicioHospedajeVisible = true;
   }
 
 

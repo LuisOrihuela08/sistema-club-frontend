@@ -135,6 +135,19 @@
     cursor: pointer;
     color: #006400;
 }
+
+.content .tabla-content .button-acciones .view{
+    border-radius: 7px;
+    border: none;
+    color: #005A7C;
+    font-size: 20px;
+}
+
+.content .tabla-content .button-acciones .view:hover{
+  color: #66D9EF;
+  cursor: pointer;
+
+}
 /*Area de la paginacion*/
 .paginacion{
     display: flex;

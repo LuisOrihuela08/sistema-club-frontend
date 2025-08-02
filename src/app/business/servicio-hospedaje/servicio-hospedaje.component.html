@@ -65,6 +65,9 @@
             <td>{{servicio.cliente.dni}}</td>
             <td>{{servicio.cliente.telephone}}</td>
             <td class="button-acciones">
+              <button (click)="openModalViewServicioHospedaje(servicio.id)" class="view">
+                <i class="fa-solid fa-eye"></i>
+              </button>
               <button (click)="openModalEditServicioHospedaje(servicio)" class="edit">
                 <i id="pencil" class="fa-solid fa-pencil"></i>
               </button>
@@ -113,6 +116,11 @@
 
 <div *ngIf="isModalEditServicioHospedajeVisible && servicioHospedajeSelect">
   <app-servicio-hospedaje-update-modal [servicioHospedaje]="servicioHospedajeSelect!"></app-servicio-hospedaje-update-modal>
+</div>
+
+<div *ngIf="isModalViewServicioHospedajeVisible && idViewServicioHospedaje">
+  <app-servicio-hospedaje-view-modal [idServicioHospedaje]="idViewServicioHospedaje!"></app-servicio-hospedaje-view-modal>
+
 </div>
 
 

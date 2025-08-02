@@ -10,6 +10,7 @@ export class ModalService {
   //Esto es para el servicio de hospedaje
   $modalAddServicioHospedaje = new EventEmitter<any>();
   $modalEditServicioHospedaje  = new EventEmitter<any>();
+  $modalViewServicioHospedaje  = new EventEmitter<any>();
 
   //Esto es para el servicio de bungalow
   $modalAddServicioBungalow = new EventEmitter<any>();
