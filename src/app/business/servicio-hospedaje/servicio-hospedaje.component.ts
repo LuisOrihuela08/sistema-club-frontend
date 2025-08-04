@@ -290,6 +290,52 @@ export class ServicioHospedajeComponent implements OnInit {
     );
   }
 
+  exportExcelByFilters(): void {
+    switch (this.filtroActual) {
+      case 'FECHA':
+        const fechaSeleccionada = new Date(this.fechaInicio!);
+        this.servicioHospedajeService.exportExcelByFilters(undefined, undefined, fechaSeleccionada).subscribe(this.descargarExcel, this.handleError);
+        console.log('Exportando Excel por fecha Ok ', fechaSeleccionada);
+        break;
+
+      case 'RANGO':
+        const desdeSeleccionada = new Date(this.desde!);
+        const hastaSeleccionada = new Date(this.hasta!);
+        this.servicioHospedajeService.exportExcelByFilters(undefined, undefined, undefined, desdeSeleccionada, hastaSeleccionada).subscribe(this.descargarExcel, this.handleError);
+        console.log('Exportando Excel por rango de fechas Ok ', desdeSeleccionada, hastaSeleccionada);
+        break;
+
+      case 'METODO_Y_FECHAS':
+        const desdeSeleccionada2 = new Date(this.desdeMetodo!);
+        const hastaSeleccionada2 = new Date(this.hastaMetodo!);
+        this.servicioHospedajeService.exportExcelByFilters(undefined, this.metodoPagoSeleccionado, undefined, desdeSeleccionada2, hastaSeleccionada2).subscribe(this.descargarExcel, this.handleError);
+        console.log('Exportando Excel por método de pago y rango de fechas Ok ', this.metodoPagoSeleccionado, desdeSeleccionada2, hastaSeleccionada2);
+        break;
+
+      case 'DNI':
+        this.servicioHospedajeService.exportExcelByFilters(this.dniSeleccionado).subscribe(this.descargarExcel, this.handleError);
+        console.log('Exportando Excel por DNI Ok ', this.dniSeleccionado);
+        break;
+
+      default:
+        Swal.fire({
+          icon: 'warning',
+          title: 'Filtros no seleccionados',
+          text: 'Por favor, aplique un filtro antes de generar el reporte.',
+          confirmButtonText: 'Aceptar'
+        });
+    }
+  }
+
+  descargarExcel(response: Blob): void {
+    const url = window.URL.createObjectURL(response);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'reporte_servicios_hospedaje.xlsx';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
   //Esto es para limpiar los filtros
   cleanFilters(): void {
     this.fechaInicio = null;

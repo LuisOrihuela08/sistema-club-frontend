@@ -69,6 +69,16 @@
 .content .cabecera .acciones .inputs .pdf-button:hover{
   background-color: #c04040;
 }
+
+.content .cabecera .acciones .inputs .excel-button{
+  background-color: #25D366;
+  color: white;
+}
+.content .cabecera .acciones .inputs .excel-button:hover{
+  background-color: #1ebe4b;
+}
+
+
 .content .tabla-content .button-acciones .view{
     border-radius: 7px;
     border: none;
