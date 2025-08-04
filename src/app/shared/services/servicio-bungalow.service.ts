@@ -95,4 +95,26 @@ export class ServicioBungalowService {
   exportPdfById(id: number): Observable<any>{
     return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/exportar-pdf/id/' + id, { responseType: 'blob' });
   }
+
+  exportExcelByFilters(dni?: string, metodoPago?: string, fechaInicio?: Date, desde?: Date, hasta?: Date): Observable<any>{
+    let params = new HttpParams();
+
+    if (dni) {
+      params = params.set('dni', dni);
+    }
+    if (metodoPago && desde && hasta) {
+      params = params.set('metodoPago', metodoPago)
+                     .set('desde', desde.toISOString().split('T')[0])
+                     .set('hasta', hasta.toISOString().split('T')[0]);
+
+    }
+    if (fechaInicio) {
+      params = params.set('fechaInicio', fechaInicio.toISOString().split('T')[0]);
+    }
+    if (desde && hasta) {
+      params = params.set('desde', desde.toISOString().split('T')[0])
+                     .set('hasta', hasta.toISOString().split('T')[0]);
+    }
+    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/exportar-excel', { responseType: 'blob', params });
+  }
 }

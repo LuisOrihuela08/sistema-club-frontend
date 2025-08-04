@@ -325,7 +325,7 @@ export class ServicioPiscinaComponent implements OnInit {
     const url = window.URL.createObjectURL(response);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'servicios-piscina.xlsx';
+    a.download = 'reporte_servicios_piscina.xlsx';
     a.click();
     window.URL.revokeObjectURL(url);
   };
