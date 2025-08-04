@@ -35,4 +35,9 @@ export class ClienteService {
   updateCliente(id: number, cliente: Cliente): Observable<any>{
     return this.http.put('http://localhost:8080/api/v1/cliente/id/' + id, cliente);
   }
+
+  //Método para exportar clientes a Excel
+  exportClientesToExcel(): Observable<any>{
+    return this.http.get('http://localhost:8080/api/v1/cliente/exportar/clientes/excel', { responseType: 'blob' });
+  }
 }

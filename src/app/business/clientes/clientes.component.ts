@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ModalService } from '../../shared/services/modal.service';
 import { ClientesUpdateModalComponent } from './clientes-update-modal/clientes-update-modal.component';
+import { blob } from 'node:stream/consumers';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-clientes',
@@ -111,5 +113,26 @@ export class ClientesComponent implements OnInit, OnDestroy {
     })
   }
 
+  //Método para exportar clientes a Excel
+  exportClientesToExcel(): void {
+    this.clienteService.exportClientesToExcel().subscribe({
+      next: (data: Blob) => {
+        const url = window.URL.createObjectURL(data);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'clientes.xlsx'; // Nombre del archivo a descargar
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Error al exportar clientes a Excel: ', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo exportar los clientes a Excel.'
+        });
+      }
+    });
+  }
 
 }

@@ -71,7 +71,7 @@ export class ServicioBungalowService {
   }
 
   exportPdfByFilters(dni?: string, metodoPago?: string, fechaInicio?: Date, desde?: Date, hasta?: Date): Observable<any>{
-       let params = new HttpParams();
+    let params = new HttpParams();
 
     if (dni) {
       params = params.set('dni', dni);
