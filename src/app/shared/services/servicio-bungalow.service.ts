@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ClienteBungalow } from '../models/ClienteBugalow';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,8 @@ export class ServicioBungalowService {
   private servicioBungalowUpdateSource = new BehaviorSubject<void>(undefined);
   servicioBungalowUpdate$ = this.servicioBungalowUpdateSource.asObservable();
 
+  private url = environment.apiUrl;
+
   constructor(private http: HttpClient) { }
 
   //Para notificar que se actualice la lista de servicios de bungalow
@@ -19,11 +22,11 @@ export class ServicioBungalowService {
   }
 
   addServicioBungalow(servicioBungalow: ClienteBungalow): Observable<any>{
-    return this.http.post('http://localhost:8080/api/v1/servicio-bungalow/', servicioBungalow);
+    return this.http.post(this.url + '/servicio-bungalow/', servicioBungalow);
   }
 
   updateServicioBungalow(id: number, servicioBungalow: ClienteBungalow): Observable<any>{
-    return this.http.put('http://localhost:8080/api/v1/servicio-bungalow/id/' + id, servicioBungalow);
+    return this.http.put(this.url + '/servicio-bungalow/id/' + id, servicioBungalow);
   }
 
   getServicioBungalowByPagination(page: number, size: number){
@@ -31,18 +34,18 @@ export class ServicioBungalowService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/pagination', { params });
+    return this.http.get(this.url + '/servicio-bungalow/pagination', { params });
   }
 
   getServicioBungalowById(id: number): Observable<any>{
-    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/id/' + id);
+    return this.http.get(this.url + '/servicio-bungalow/id/' + id);
   }
 
   getServicioBungalowByFechaPagination(page: number, size: number, fechaInicio: Date): Observable<any>{
     const params = new HttpParams().set('page', page.toString())
                                    .set('size', size.toString())
                                    .set('fechaInicio', fechaInicio.toISOString().split('T')[0]);
-    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/pagination/fecha', { params });
+    return this.http.get(this.url + '/servicio-bungalow/pagination/fecha', { params });
   }
 
   getServicioBungalowByFechaBetween(page: number, size: number, desde: Date, hasta: Date): Observable<any>{
@@ -51,14 +54,14 @@ export class ServicioBungalowService {
                                     .set('desde', desde.toISOString().split('T')[0])
                                     .set('hasta', hasta.toISOString().split('T')[0]);
 
-    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/pagination/fecha-between', { params });
+    return this.http.get(this.url + '/servicio-bungalow/pagination/fecha-between', { params });
   }
 
   getServicioBungalowByClienteDni(page: number, size: number, dni: string): Observable<any>{
     const params = new HttpParams().set('page', page.toString())
                                     .set('size', size.toString())
                                     .set('dni', dni);
-    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/pagination/cliente-dni', { params });
+    return this.http.get(this.url + '/servicio-bungalow/pagination/cliente-dni', { params });
   }
 
   getServicioBungalowByMetodoPagoAndFechaBetween(page: number, size: number, metodoPago: string, desde: Date, hasta: Date): Observable<any>{
@@ -67,7 +70,7 @@ export class ServicioBungalowService {
                                     .set('nameMetodoPago', metodoPago)
                                     .set('desde', desde.toISOString().split('T')[0])
                                     .set('hasta', hasta.toISOString().split('T')[0]);
-    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/pagination/metodoPago/fecha-between', { params });
+    return this.http.get(this.url + '/servicio-bungalow/pagination/metodoPago/fecha-between', { params });
   }
 
   exportPdfByFilters(dni?: string, metodoPago?: string, fechaInicio?: Date, desde?: Date, hasta?: Date): Observable<any>{
@@ -89,11 +92,11 @@ export class ServicioBungalowService {
       params = params.set('desde', desde.toISOString().split('T')[0])
                      .set('hasta', hasta.toISOString().split('T')[0]);
     }
-    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/exportar-pdf', { responseType: 'blob', params });
+    return this.http.get(this.url + '/servicio-bungalow/exportar-pdf', { responseType: 'blob', params });
   }
 
   exportPdfById(id: number): Observable<any>{
-    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/exportar-pdf/id/' + id, { responseType: 'blob' });
+    return this.http.get(this.url + '/servicio-bungalow/exportar-pdf/id/' + id, { responseType: 'blob' });
   }
 
   exportExcelByFilters(dni?: string, metodoPago?: string, fechaInicio?: Date, desde?: Date, hasta?: Date): Observable<any>{
@@ -115,6 +118,6 @@ export class ServicioBungalowService {
       params = params.set('desde', desde.toISOString().split('T')[0])
                      .set('hasta', hasta.toISOString().split('T')[0]);
     }
-    return this.http.get('http://localhost:8080/api/v1/servicio-bungalow/exportar-excel', { responseType: 'blob', params });
+    return this.http.get(this.url + '/servicio-bungalow/exportar-excel', { responseType: 'blob', params });
   }
 }

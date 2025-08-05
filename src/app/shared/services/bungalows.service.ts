@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Bungalow } from '../models/Bungalow';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class BungalowsService {
   private bungalowUpdateSource = new BehaviorSubject<void>(undefined);
   bungalowUpdate$ = this.bungalowUpdateSource.asObservable();
 
+  private url = environment.apiUrl;
+
   constructor(private http: HttpClient) { }
 
   //Método para actualizar la lista  de los bungalows
@@ -20,24 +23,24 @@ export class BungalowsService {
   }
 
   getBungalows(): Observable<any>{
-    return this.http.get('http://localhost:8080/api/v1/bungalow/');
+    return this.http.get(this.url + '/bungalow/');
   }
 
   //Método para listar los bungalows por paginación
   getBungalowsByPagination(page: number, size: number){
     const params = new HttpParams().set('page', page.toString())
                                    .set('size', size.toString());
-    return this.http.get('http://localhost:8080/api/v1/bungalow/pagination', {params});
+    return this.http.get(this.url + '/bungalow/pagination', {params});
   }
 
   //Método para buscar bungalow por código
   getBungalowByCodigo(codigo: string): Observable<any>{
-    return this.http.get('http://localhost:8080/api/v1/bungalow/codigo/' + codigo);
+    return this.http.get(this.url + '/bungalow/codigo/' + codigo);
   }
 
   //Método para obtener bungalows disponibles
   getBungalowDisponibles(): Observable<any>{
-    return this.http.get('http://localhost:8080/api/v1/bungalow/disponibles');
+    return this.http.get(this.url + '/bungalow/disponibles');
   }
 
   //Método para ver los bungalows disponibles y no disponbles
@@ -45,16 +48,16 @@ export class BungalowsService {
     const params = new HttpParams().set('page', page.toString())
                                    .set('size', size.toString())
                                    .set('disponible', disponible.toString());
-    return this.http.get('http://localhost:8080/api/v1/bungalow/disponibilidad', {params});
+    return this.http.get(this.url + '/bungalow/disponibilidad', {params});
   }
 
   //Método para agregar un bungalow
   addBungalow(bungalow: Bungalow): Observable<any>{
-    return this.http.post('http://localhost:8080/api/v1/bungalow/', bungalow);
+    return this.http.post(this.url + '/bungalow/', bungalow);
   }
 
   //Método para actualizar un bungalow
   updateBungalow(id: number, bungalow: Bungalow): Observable<any>{
-    return this.http.put('http://localhost:8080/api/v1/bungalow/id/' + id, bungalow);
+    return this.http.put(this.url + '/bungalow/id/' + id, bungalow);
   }
 }

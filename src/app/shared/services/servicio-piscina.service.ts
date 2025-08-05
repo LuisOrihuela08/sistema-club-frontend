@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ClientePiscina } from '../models/ClientePiscina';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ export class ServicioPiscinaService {
 
   private servicioPiscinaUpdateSource = new BehaviorSubject<void>(undefined);
   servicioPiscinaUpdate$ = this.servicioPiscinaUpdateSource.asObservable();
+
+  private url = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -21,7 +24,7 @@ export class ServicioPiscinaService {
   getServicioPiscinaByPagination(page: number, size: number){
     const params = new HttpParams().set('page', page.toString())
                                     .set('size', size.toString());
-    return this.http.get('http://localhost:8080/api/v1/servicio-piscina/pagination', {params});
+    return this.http.get(this.url + '/servicio-piscina/pagination', {params});
   }
 
   getServicioPiscinaByFechaPagination(page: number, size: number, fecha: Date): Observable<any>{
@@ -30,7 +33,7 @@ export class ServicioPiscinaService {
       .set('size', size.toString())
       .set('fecha', fecha.toISOString().split('T')[0]); //Convierte Date al formato YYYY-MM-DD, ya que asi lo espera el backend
 
-    return this.http.get('http://localhost:8080/api/v1/servicio-piscina/pagination/fecha', { params });
+    return this.http.get(this.url + '/servicio-piscina/pagination/fecha', { params });
   }
 
   getServicioPiscinaByFechaBetween(page: number, size: number, desde: Date, hasta: Date): Observable<any>{
@@ -39,7 +42,7 @@ export class ServicioPiscinaService {
                                     .set('desde', desde.toISOString().split('T')[0])
                                     .set('hasta', hasta.toISOString().split('T')[0]);
 
-    return this.http.get('http://localhost:8080/api/v1/servicio-piscina/pagination/fecha-between', { params });
+    return this.http.get(this.url + '/servicio-piscina/pagination/fecha-between', { params });
   }
 
   getServicioPiscinaByClienteDni(page: number, size: number, dni: string): Observable<any>{
@@ -47,7 +50,7 @@ export class ServicioPiscinaService {
                                     .set('size', size.toString())
                                     .set('dni', dni);
 
-    return this.http.get('http://localhost:8080/api/v1/servicio-piscina/pagination/dni', { params });
+    return this.http.get(this.url + '/servicio-piscina/pagination/dni', { params });
   }
 
   getServicioPiscinaByMetodoPagoAndFechaBetween(page: number, size: number, metodoPago: string, desde: Date, hasta: Date): Observable<any>{
@@ -58,15 +61,15 @@ export class ServicioPiscinaService {
                                   .set('desde', desde.toISOString().split('T')[0])
                                   .set('hasta', hasta.toISOString().split('T')[0]);
 
-    return this.http.get('http://localhost:8080/api/v1/servicio-piscina/pagination/metodo-pago-fecha', { params });
+    return this.http.get(this.url + '/servicio-piscina/pagination/metodo-pago-fecha', { params });
   }
 
   addServicioPiscina(servicioPiscina: ClientePiscina): Observable<any>{
-    return this.http.post('http://localhost:8080/api/v1/servicio-piscina/', servicioPiscina);
+    return this.http.post(this.url + '/servicio-piscina/', servicioPiscina);
   }
 
   updateServicioPiscina(id: number, servicioPiscina: ClientePiscina): Observable<any>{
-    return this.http.put('http://localhost:8080/api/v1/servicio-piscina/id/' + id, servicioPiscina);
+    return this.http.put(this.url + '/servicio-piscina/id/' + id, servicioPiscina);
   }
 
   exportPdfServicioPiscina(dni?: string, metodoPago?: string, fechaInicio?: Date, desde?: Date, hasta?: Date): Observable<any>{
@@ -89,11 +92,11 @@ export class ServicioPiscinaService {
                      .set('hasta', hasta.toISOString().split('T')[0]);
     }
 
-    return this.http.get('http://localhost:8080/api/v1/servicio-piscina/exportar-pdf', { responseType: 'blob', params });
+    return this.http.get(this.url + '/servicio-piscina/exportar-pdf', { responseType: 'blob', params });
   }
 
   exportServicioPiscinaPdfById(id: number): Observable<any>{
-    return this.http.get('http://localhost:8080/api/v1/servicio-piscina/exportar-pdf/id/' + id, { responseType: 'blob' });
+    return this.http.get(this.url + '/servicio-piscina/exportar-pdf/id/' + id, { responseType: 'blob' });
   }
 
   //Para generar Excel
@@ -116,7 +119,7 @@ export class ServicioPiscinaService {
       params = params.set('desde', desde.toISOString().split('T')[0])
                      .set('hasta', hasta.toISOString().split('T')[0]);
     }
-    return this.http.get('http://localhost:8080/api/v1/servicio-piscina/exportar-excel', { responseType: 'blob', params });
+    return this.http.get(this.url + '/servicio-piscina/exportar-excel', { responseType: 'blob', params });
   }
 
 }
