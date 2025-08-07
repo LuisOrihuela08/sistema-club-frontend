@@ -158,7 +158,7 @@ export class ServicioPiscinaComponent implements OnInit {
   }
 
   getServicioPiscinaByClienteDni(): void {
-    if (!this.dniSeleccionado) {
+    if (!this.dniSeleccionado.trim()) {
       console.warn('No se ha ingresado un DNI');
       this.getServicioPiscinaByPagination();
       return;

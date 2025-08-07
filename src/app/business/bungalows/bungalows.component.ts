@@ -11,7 +11,7 @@ import { BungalowUpdateModalComponent } from './bungalow-update-modal/bungalow-u
 @Component({
   selector: 'app-bungalows',
   standalone: true,
-  imports: [CommonModule, FormsModule, BungalowAddModalComponent, BungalowUpdateModalComponent],
+  imports: [CommonModule, FormsModule,  BungalowAddModalComponent, BungalowUpdateModalComponent],
   templateUrl: './bungalows.component.html',
   styleUrl: './bungalows.component.css'
 })

@@ -7,7 +7,7 @@
       <div class="acciones">
         <div class="inputs">
           <label for="">Código:</label>
-          <input [(ngModel)]="codigoHabitacionBuscado" (input)="getHospedajeByCodigoHabitacion()" type="search">
+          <input [(ngModel)]="codigoHabitacionBuscado" (ngModelChange)="getHospedajeByCodigoHabitacion()" type="search">
         </div>
         <div class="inputs">
           <button (click)="getHospedajeByDisponibility(true)" class="button-disponible">Disponibles</button>

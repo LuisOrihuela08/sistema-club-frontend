@@ -8,7 +8,7 @@
             <div class="acciones">
                 <div class="inputs">
                     <label for="">Código:</label>
-                    <input [(ngModel)]="codigoBungalowBuscado" (input)="getBungalowByCodigo()" type="search">
+                    <input [(ngModel)]="codigoBungalowBuscado" (ngModelChange)="getBungalowByCodigo()" type="search"><!--cambie (input) por (ngModelChange), ya que me empezo a marcar error-->
                 </div>
                 <div class="inputs">
                     <button class="button-disponible" (click)="getBungalowByDisponibility(true)">Disponibles</button>

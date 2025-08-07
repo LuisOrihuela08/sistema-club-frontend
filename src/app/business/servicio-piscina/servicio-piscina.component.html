@@ -24,7 +24,7 @@
         </div>
         <div class="inputs">
           <label for="">DNI:</label>
-          <input (input)="getServicioPiscinaByClienteDni()" type="search" [(ngModel)]="dniSeleccionado">
+          <input type="search" [(ngModel)]="dniSeleccionado" (ngModelChange)="getServicioPiscinaByClienteDni()">
         </div>
         <div class="inputs">
           <button (click)="cleanFilters()"><i class="fa-solid fa-broom"></i></button>

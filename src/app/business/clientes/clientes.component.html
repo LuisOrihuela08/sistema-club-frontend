@@ -7,7 +7,7 @@
       <div class="acciones">
         <div class="inputs">
           <label for="">DNI:</label>
-          <input [(ngModel)]="dniClienteBuscado" (input)="getClienteByDni()" type="search">
+          <input [(ngModel)]="dniClienteBuscado" (ngModelChange)="getClienteByDni()" type="search">
         </div>
       </div>
       <div class="export">
