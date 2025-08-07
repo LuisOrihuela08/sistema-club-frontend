@@ -81,7 +81,7 @@ Reporte de la lista de clientes en Excel:
 - Font Awesome – Para iconografía moderna y personalizable.
 - Google Fonts – Para personalización de tipografías y estilos
 
-## 🌐 Frontend para la API
+## 🌐 Backend para la aplicación
    ```bash
    https://github.com/LuisOrihuela08/sistema-club-backend.git
    ```
